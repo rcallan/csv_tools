@@ -8,15 +8,22 @@
 
 using namespace std;
 
+
+void showHelp()
+{
+  cout << "usage- showcsv [--path <path>] [--print_values off || on]" << endl << endl
+    << "The showcsv tool prints the number of rows and columns and (optionally) all "
+    << "the values of the csv file to the standard output." << endl;
+}
+
+
 int main(int argc, char** argv)
 {
   parameters::parameter_set parameterSet = parameters::parse_arguments(argc, argv);
   
   if (parameterSet.showHelp == true)
   {
-    cout << "usage- showcsv [--path <path>] [--print_values off || on]" << endl << endl
-    << "The showcsv tool prints the number of rows and columns and (optionally) all "
-    << "the values of the csv file to the standard output." << endl;
+    showHelp();
     return 0;
   }
   
@@ -24,8 +31,7 @@ int main(int argc, char** argv)
   
   csv_file::Ptr csvFile(csv_file::read_data(parameterSet.filePath));
   
-  cout << "size of input data is " << csvFile->get_num_rows() << " rows by "
-  << csvFile->get_num_columns() << " columns" << endl;
+  csvFile->printSize("input file");
   
   if (parameterSet.printValues)
     csv_operations::print_csv_values(*csvFile);

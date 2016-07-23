@@ -8,15 +8,21 @@
 
 using namespace std;
 
+void showHelp()
+{
+  cout << "usage- csvcolumnselector [--path <path>] [--output_path <output path>] [--columns COLUMNS]" << endl
+    << endl << "The csvcolumnselector utility allows you to "
+    << "select and save only particular columns of a csv file." << endl;
+}
+
+
 int main(int argc, char** argv)
 {
   parameters::parameter_set parameterSet = parameters::parse_arguments(argc, argv);
   
   if (parameterSet.showHelp == true)
   {
-    cout << "usage- csvcolumnselector [--path <path>] [--output_path <output path>] [--columns COLUMNS]" << endl
-    << endl << "The csvcolumnselector utility allows you to "
-    << "select and save only particular columns of a csv file." << endl;
+    showHelp();
     return 0;
   }
   
@@ -24,13 +30,11 @@ int main(int argc, char** argv)
   
   csv_file::Ptr csvFile(csv_file::read_data(parameterSet.filePath));
   
-  cout << "size of input is " << csvFile->get_num_rows() << " rows by "
-  << csvFile->get_num_columns() << " columns" << endl;
+  csvFile->printSize("input");
   
   csv_operations::edit_columns(csvFile, parameterSet.colsToUse);
   
-  cout << "size of output is " << csvFile->get_num_rows() << " rows by "
-  << csvFile->get_num_columns() << " columns" << endl;
+  csvFile->printSize("output");
   
   csv_file::write_data(*csvFile, parameterSet.outputPath);
   

@@ -13,16 +13,16 @@ typedef csv_file DataType;
 namespace csv_operations
 {
   // returns the indices that can be used to split the data up into equally sized pieces
-  vector<int> get_bounds(int size, int numRows, int numColumns, int numSubsets)
+  vector<unsigned> get_bounds(unsigned size, unsigned numRows, unsigned numColumns, unsigned numSubsets)
   {
-    vector<int> bounds(numSubsets);
-    int numSubsetRows = numRows / numSubsets;
-    int subsetSize = numSubsetRows * numColumns;
-    int numRowsInLastSubset = numSubsetRows + numRows % numSubsetRows;
+    vector<unsigned> bounds(numSubsets);
+    unsigned numSubsetRows = numRows / numSubsets;
+    unsigned subsetSize = numSubsetRows * numColumns;
+    unsigned numRowsInLastSubset = numSubsetRows + numRows % numSubsetRows;
     
     //cout << "number of rows in last subset is " << numRowsInLastSubset << endl;
     
-    for (int i = 0; i < numSubsets - 1; ++i)
+    for (unsigned i = 0; i < numSubsets - 1; ++i)
     {
       bounds[i] = subsetSize * (i + 1);
     }
@@ -36,9 +36,9 @@ namespace csv_operations
   // checks for infinite values in the csv file
   void verify_data_format(const DataType &csvFile)
   {
-    for (int i = 0; i < csvFile.get_num_rows(); ++i)
+    for (unsigned i = 0; i < csvFile.get_num_rows(); ++i)
     {
-      for (int j = 0; j < csvFile.get_num_columns(); ++j)
+      for (unsigned j = 0; j < csvFile.get_num_columns(); ++j)
       {
         if (csvFile.values(i, j) == "inf")
         {
@@ -60,10 +60,10 @@ namespace csv_operations
   }
   
   DataType::Ptr do_arith_operation_subset(DataType::Ptr updatedcsvFile, function<double(double, double)> myoper,
-                                          int firstRow, int lastRow, int firstCol, int secondCol)
+                                          unsigned firstRow, unsigned lastRow, unsigned firstCol, unsigned secondCol)
   {
-    int newNumColumns = updatedcsvFile->get_num_columns();
-    int numRows = updatedcsvFile->get_num_rows();
+    unsigned newNumColumns = updatedcsvFile->get_num_columns();
+    unsigned numRows = updatedcsvFile->get_num_rows();
     updatedcsvFile->set_num_columns(newNumColumns);
     
     updatedcsvFile->values.data_.resize(newNumColumns);
@@ -71,7 +71,7 @@ namespace csv_operations
     
     const DataType& csvFile = *updatedcsvFile;
     
-    for (int i = firstRow; i < lastRow; ++i)
+    for (unsigned i = firstRow; i < lastRow; ++i)
     {
       updatedcsvFile->values(i, newNumColumns - 1) = to_string(myoper(stod(csvFile.values(i, firstCol)),
                                                                       stod(csvFile.values(i, secondCol))));
@@ -81,12 +81,12 @@ namespace csv_operations
   }
   
   DataType::Ptr perform_column_op_subset(DataType::Ptr csvFile, function<double(double, double)> myoper,
-                                         int firstRow, int lastRow, vector<string> colsToUse)
+                                         unsigned firstRow, unsigned lastRow, vector<string> colsToUse)
   {
-    int firstCol = stoi(colsToUse[0]);
-    int secondCol = stoi(colsToUse[1]);
+    unsigned firstCol = stoi(colsToUse[0]);
+    unsigned secondCol = stoi(colsToUse[1]);
     
-    int numColumns = csvFile->get_num_columns();
+    unsigned numColumns = csvFile->get_num_columns();
     
     if (firstCol < 0 || firstCol > numColumns - 1
         || secondCol < 0 || secondCol > numColumns - 1)
@@ -99,11 +99,11 @@ namespace csv_operations
   
   DataType::Ptr perform_column_op(DataType::Ptr csvFile, function<double(double, double)> myoper, vector<string> colsToUse)
   {
-    int firstCol = stoi(colsToUse[0]);
-    int secondCol = stoi(colsToUse[1]);
+    unsigned firstCol = stoi(colsToUse[0]);
+    unsigned secondCol = stoi(colsToUse[1]);
     
-    int numRows = csvFile->get_num_rows();
-    int numColumns = csvFile->get_num_columns();
+    unsigned numRows = csvFile->get_num_rows();
+    unsigned numColumns = csvFile->get_num_columns();
     
     if (firstCol < 0 || firstCol > numColumns - 1
         || secondCol < 0 || secondCol > numColumns - 1)
@@ -115,10 +115,9 @@ namespace csv_operations
   }
   
   // output the column index, minimum, maximum, median, and average values
-  void show_single_column_stats(vector<double> column, int col_idx, string otherStat)
+  void show_single_column_stats(vector<double> column, unsigned col_idx, string otherStat)
   {
-    double columnSize = column.size();
-    
+
     cout << "column " << col_idx << " - ";
     if (otherStat == "none")
     {
@@ -134,9 +133,9 @@ namespace csv_operations
   
   void show_multiple_column_stats(const DataType &csvFile, vector<string> colsToUse, string otherStat)
   {
-    int numColumns = csvFile.get_num_columns();
-    int numColstoUse = colsToUse.size();
-    int columnIndex;
+    unsigned numColumns = csvFile.get_num_columns();
+    unsigned numColstoUse = colsToUse.size();
+    unsigned columnIndex;
     
     // output stats for columns
     if (otherStat == "none")
@@ -154,8 +153,8 @@ namespace csv_operations
         throw std::invalid_argument("two columns should be specified to get correlation coefficient");
       }
       
-      int firstColIdx = stoi(colsToUse[0]);
-      int secondColIdx = stoi(colsToUse[1]);
+      unsigned firstColIdx = stoi(colsToUse[0]);
+      unsigned secondColIdx = stoi(colsToUse[1]);
       
       vector<double> firstCol = csvFile.get_column(firstColIdx);
       vector<double> secondCol = csvFile.get_column(secondColIdx);
@@ -168,7 +167,7 @@ namespace csv_operations
     }
     
     vector<double> currentColumn;
-    for (int j = 0; j < numColstoUse; ++j)
+    for (unsigned j = 0; j < numColstoUse; ++j)
     {
       columnIndex = stoi(colsToUse[j]);
       if (columnIndex < 0 || columnIndex > numColumns - 1)
@@ -183,9 +182,7 @@ namespace csv_operations
   // removes columns that are no longer desired
   void edit_columns(DataType::Ptr& csvFile, vector<string> colsToUse)
   {
-    int numRows = csvFile->get_num_rows();
-    int numColumns = csvFile->get_num_columns();
-    int numOutputCols = colsToUse.size();
+    unsigned numOutputCols = colsToUse.size();
     
     unsigned count = 0;
     
@@ -195,20 +192,18 @@ namespace csv_operations
                                           [&](vector<string> a) { return columns.count(to_string(count++)) == 0; } ),
                                 csvFile->values.data_.end());
     
-    
-    csvFile->set_num_rows(numRows);
     csvFile->set_num_columns(numOutputCols);
   }
   
   void print_csv_values(const DataType& csvFile)
   {
     
-    int numColumns = csvFile.get_num_columns();
-    int numRows = csvFile.get_num_rows();
+    unsigned numColumns = csvFile.get_num_columns();
+    unsigned numRows = csvFile.get_num_rows();
     
-    for (int i = 0; i < numRows; ++i)
+    for (unsigned i = 0; i < numRows; ++i)
     {
-      for (int j = 0; j < numColumns; ++j)
+      for (unsigned j = 0; j < numColumns; ++j)
       {
         cout << csvFile.values(i, j);
         if (j < numColumns - 1)
@@ -223,7 +218,7 @@ namespace csv_operations
   }
   
   vector<double>::const_iterator my_find(vector<double>::const_iterator first, vector<double>::const_iterator last,
-                                         int &index, const double& val)
+                                         unsigned &index, const double& val)
   {
     while (first!=last)
     {
@@ -241,13 +236,13 @@ namespace csv_operations
   DataType::Ptr join_data_sets(const DataType &csvFile, const DataType &csvFile2, vector<string> colsToUse,
                                string operation)
   {
-    int numRows = csvFile.get_num_rows();
-    int numColumns = csvFile.get_num_columns();
-    int numRows2 = csvFile2.get_num_rows();
-    int numColumns2 = csvFile2.get_num_columns();
-    int numColstoUse = colsToUse.size();
-    int colIndex = stoi(colsToUse[0]);
-    int colIndex2;
+    unsigned numRows = csvFile.get_num_rows();
+    unsigned numColumns = csvFile.get_num_columns();
+    unsigned numRows2 = csvFile2.get_num_rows();
+    unsigned numColumns2 = csvFile2.get_num_columns();
+    unsigned numColstoUse = colsToUse.size();
+    unsigned colIndex = stoi(colsToUse[0]);
+    unsigned colIndex2;
     
     if (numColstoUse > 1)
     {
@@ -270,20 +265,20 @@ namespace csv_operations
     vector<double> currentCol = csvFile.get_column(colIndex);
     vector<double> currentCol2 = csvFile2.get_column(colIndex2);
     DataType::Ptr outputCsvFile(new DataType());
-    int numOutputRows = 0;
+    unsigned numOutputRows = 0;
     
     outputCsvFile->values.data_.resize(numColumns + numColumns2);
     
-    unordered_set<int> rowSet;
+    unordered_set<unsigned> rowSet;
     vector<double>::const_iterator indexIterator;
-    int rowIndex;
+    unsigned rowIndex;
     
     
     if (operation == "inner_join")
     {
       cout << "performing an inner join on the specified columns of the input data sets" << endl;
       
-      for (int i = 0; i < numRows; ++i)
+      for (unsigned i = 0; i < numRows; ++i)
       {
         rowIndex = 0;
         // for each row in the specified column of the first csv file, check if there are
@@ -293,12 +288,12 @@ namespace csv_operations
         {
           ++numOutputRows;
           // add the current row of the first csv file to the output csv file
-          for (int j = 0; j < numColumns; ++j)
+          for (unsigned j = 0; j < numColumns; ++j)
           {
             outputCsvFile->values.data_[j].push_back(csvFile.values(i, j));
           }
           // add the corresponding row of the second csv file to the output csv file
-          for (int j = 0; j < numColumns2; ++j)
+          for (unsigned j = 0; j < numColumns2; ++j)
           {
             outputCsvFile->values.data_[numColumns + j].push_back(csvFile2.values(rowIndex, j));
           }
@@ -313,7 +308,7 @@ namespace csv_operations
       
       // for each value in the specified column of the first csv file, check if there are
       // any rows in the specified column of the second csv file that have matching values
-      for (int i = 0; i < numRows; ++i)
+      for (unsigned i = 0; i < numRows; ++i)
       {
         rowIndex = 0;
         indexIterator = my_find(currentCol2.cbegin(), currentCol2.cend(), rowIndex, currentCol[i]);
@@ -323,11 +318,11 @@ namespace csv_operations
           // as well as a row of n "null" values to the output csv file, where n is the
           // number of columns in the second csv file
           ++numOutputRows;
-          for (int j = 0; j < numColumns; ++j)
+          for (unsigned j = 0; j < numColumns; ++j)
           {
             outputCsvFile->values.data_[j].push_back(csvFile.values(i, j));
           }
-          for (int j = 0; j < numColumns2; ++j)
+          for (unsigned j = 0; j < numColumns2; ++j)
           {
             outputCsvFile->values.data_[numColumns + j].emplace_back("null");
           }
@@ -340,13 +335,13 @@ namespace csv_operations
           {
             ++numOutputRows;
             // add the current row of the first csv file to the output csv file
-            for (int j = 0; j < numColumns; ++j)
+            for (unsigned j = 0; j < numColumns; ++j)
             {
               outputCsvFile->values.data_[j].push_back(csvFile.values(i, j));
             }
             // add the corresponding row of the second csv file to the output csv file
             rowSet.insert(rowIndex);
-            for (int j = 0; j < numColumns2; ++j)
+            for (unsigned j = 0; j < numColumns2; ++j)
             {
               outputCsvFile->values.data_[numColumns + j].push_back(csvFile2.values(rowIndex, j));
             }
@@ -356,7 +351,7 @@ namespace csv_operations
         }
         
       }
-      for (int i = 0; i < numRows2; ++i)
+      for (unsigned i = 0; i < numRows2; ++i)
       {
         // if we have already dealt with the current row of the second csv file, then we skip to the next row
         if (rowSet.count(i) > 0)
@@ -368,11 +363,11 @@ namespace csv_operations
           // for each value in the specified column of the second csv file that was not used when looping through
           // the specified column of the first csv file, we add another row to the output csv file
           ++numOutputRows;
-          for (int j = 0; j < numColumns; ++j)
+          for (unsigned j = 0; j < numColumns; ++j)
           {
             outputCsvFile->values.data_[j].emplace_back("null");
           }
-          for (int j = 0; j < numColumns2; ++j)
+          for (unsigned j = 0; j < numColumns2; ++j)
           {
             outputCsvFile->values.data_[numColumns + j].push_back(csvFile2.values(i, j));
           }

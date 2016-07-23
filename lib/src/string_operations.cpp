@@ -12,7 +12,7 @@ namespace string_operations
   {
     size_t pos = 0;
     string p;
-    int columnIndex = 0;
+    unsigned columnIndex = 0;
     while ((pos = line.find(delim, 0)) != string::npos)
     {
       values[columnIndex].emplace_back(line.substr(0, pos));

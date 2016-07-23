@@ -13,7 +13,7 @@ namespace parameters
     parameter_set parameterSet;
     string arg, optionArg;
     
-    for (int i = 1; i < argc; ++i)
+    for (unsigned i = 1; i < argc; ++i)
     {
       arg = argv[i];
       

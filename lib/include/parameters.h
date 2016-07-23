@@ -39,10 +39,10 @@ namespace parameters
     vector<string> colsToUse;
     string operation;
     function<double(double, double)> myoper;
-    int numThreads;
+    unsigned numThreads;
     string otherStat;
     bool printValues;
-    int numOptions;
+    unsigned numOptions;
   };
   
   parameter_set parse_arguments(int argc, char** argv);

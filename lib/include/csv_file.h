@@ -20,9 +20,9 @@ public:
   
   csv_file()
   : values(), numRows(0), numColumns(0) {}
-  csv_file(int numRows_, int numColumns_)
+  csv_file(unsigned numRows_, unsigned numColumns_)
   : numRows(numRows_), numColumns(numColumns_) {}
-  csv_file(int numRows_, int numColumns_, matrix<string> values_)
+  csv_file(unsigned numRows_, unsigned numColumns_, matrix<string> values_)
   : values(values_), numRows(numRows_), numColumns(numColumns_) {}
   
   /*
@@ -32,34 +32,40 @@ public:
   }
   */
   
-  void set_num_rows(int numRows_) { numRows = numRows_; }
-  void set_num_columns(int numColumns_) { numColumns = numColumns_; }
-  int get_num_rows() const { return numRows; }
-  int get_num_columns() const { return numColumns; }
+  void set_num_rows(unsigned numRows_) { numRows = numRows_; }
+  void set_num_columns(unsigned numColumns_) { numColumns = numColumns_; }
+  unsigned get_num_rows() const { return numRows; }
+  unsigned get_num_columns() const { return numColumns; }
   
   typedef shared_ptr<csv_file> Ptr;
   
-  void resize(int numRows_, int numColumns_)
+  void resize(unsigned numRows_, unsigned numColumns_)
   {
     numRows = numRows_;
     numColumns = numColumns_;
     values.resize_matrix(numRows, numColumns);
   }
-  
-  vector<double> get_column(int colIndex) const
+
+  void printSize(string fileName)
+  {
+    cout << "size of " + fileName + " is " << numRows << " rows by " 
+    << numColumns << " columns" << endl;
+  }
+
+  vector<double> get_column(unsigned colIndex) const
   {
     vector<double> column(numRows);
-    for (int i = 0; i < numRows; ++i)
+    for (unsigned i = 0; i < numRows; ++i)
     {
       column[i] = stod(values(i, colIndex));
     }
     return column;
   }
   
-  vector<double> get_row(int rowIndex) const
+  vector<double> get_row(unsigned rowIndex) const
   {
     vector<double> row(numColumns);
-    for (int i = 0; i < numColumns; ++i)
+    for (unsigned i = 0; i < numColumns; ++i)
     {
       row[i] = stod(values(rowIndex, i));
     }
@@ -73,11 +79,11 @@ public:
   static void write_data(const csv_file &csvFile, char* path);
   
   static void write_data_subset(const csv_file &csvFile, ofstream &outputFile,
-                                int firstRow, int lastRow, bool finalSubset);
+                                unsigned firstRow, unsigned lastRow, bool finalSubset);
   
 private:
-  int numRows;
-  int numColumns;
+  unsigned numRows;
+  unsigned numColumns;
   
 };
 

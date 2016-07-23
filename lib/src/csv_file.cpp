@@ -16,8 +16,8 @@ DataType * csv_file
   ifstream file (path);
   string value;
   DataType * csvFile = new DataType();
-  int numRows = 0;
-  int numColumns = 0;
+  unsigned numRows = 0;
+  unsigned numColumns = 0;
   
   while (file.good())
   {
@@ -27,7 +27,7 @@ DataType * csv_file
     
     if (numRows == 1)
     {
-      numColumns = (int)count(value.begin(), value.end(), ',') + 1;
+      numColumns = (unsigned)count(value.begin(), value.end(), ',') + 1;
       csvFile->values.data_.resize(numColumns);
     }
     
@@ -50,12 +50,12 @@ void csv_file
 ::write_data(const DataType &csvFile, char* path)
 {
   ofstream output_file (path);
-  int numRows = csvFile.get_num_rows();
-  int numColumns = csvFile.get_num_columns();
+  unsigned numRows = csvFile.get_num_rows();
+  unsigned numColumns = csvFile.get_num_columns();
   
-  for (int i = 0; i < numRows; ++i)
+  for (unsigned i = 0; i < numRows; ++i)
   {
-    for (int j = 0; j < numColumns; ++j)
+    for (unsigned j = 0; j < numColumns; ++j)
     {
       output_file << csvFile.values(i, j);
       if (j < numColumns - 1)
@@ -73,13 +73,13 @@ void csv_file
 
 void csv_file
 ::write_data_subset(const DataType &csvFile, ofstream &outputFile,
-                    int firstRow, int lastRow, bool isFinalSubset)
+                    unsigned firstRow, unsigned lastRow, bool isFinalSubset)
 {
-  int numRows = csvFile.get_num_rows();
-  int numColumns = csvFile.get_num_columns();
-  for (int i = firstRow; i < lastRow; ++i)
+  unsigned numRows = csvFile.get_num_rows();
+  unsigned numColumns = csvFile.get_num_columns();
+  for (unsigned i = firstRow; i < lastRow; ++i)
   {
-    for (int j = 0; j < numColumns; ++j)
+    for (unsigned j = 0; j < numColumns; ++j)
     {
       outputFile << csvFile.values(i, j);
       if (j < numColumns - 1)

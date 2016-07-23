@@ -8,6 +8,13 @@
 
 using namespace std;
 
+void showHelp()
+{
+  cout << "usage- csvjointool [--path <path>] [--path2 <second path>] [--output_path <output path>] "
+    << "[--columns_to_join_on COLUMNKEYS] [--operation OPERATION]" << endl
+    << endl << "The csvjointool utility performs inner and outer joins on csv files." << endl;
+}
+
 int main(int argc, char** argv)
 {
   clock_t start;
@@ -18,9 +25,7 @@ int main(int argc, char** argv)
   
   if (parameterSet.showHelp == true)
   {
-    cout << "usage- csvjointool [--path <path>] [--path2 <second path>] [--output_path <output path>] "
-    << "[--columns_to_join_on COLUMNKEYS] [--operation OPERATION]" << endl
-    << endl << "The csvjointool utility performs inner and outer joins on csv files." << endl;
+    showHelp();
     return 0;
   }
   
@@ -30,16 +35,13 @@ int main(int argc, char** argv)
   csv_file::Ptr csvFile(csv_file::read_data(parameterSet.filePath));
   csv_file::Ptr csvFile2(csv_file::read_data(parameterSet.filePath2));
   
-  cout << "size of first input file is " << csvFile->get_num_rows() << " rows by "
-  << csvFile->get_num_columns() << " columns" << endl;
-  cout << "size of second input file is " << csvFile2->get_num_rows() << " rows by "
-  << csvFile2->get_num_columns() << " columns" << endl;
+  csvFile->printSize("first input file");
+  csvFile->printSize("second input file");
   
   csv_file::Ptr outputCsvFile = csv_operations::join_data_sets(*csvFile, *csvFile2, parameterSet.colsToUse,
                                                              parameterSet.operation);
   
-  cout << "size of output file is " << outputCsvFile->get_num_rows() << " rows by "
-  << outputCsvFile->get_num_columns() << " columns" << endl;
+  outputCsvFile->printSize("output file");
   
   csv_file::write_data(*outputCsvFile, parameterSet.outputPath);
   

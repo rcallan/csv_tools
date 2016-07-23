@@ -10,9 +10,9 @@ namespace stats
   double get_min_element(vector<double>& values)
   {
     double min = numeric_limits<double>::max();
-    int valuesSize = values.size();
+    unsigned valuesSize = values.size();
     
-    for (int i = 0; i < valuesSize; ++i) {
+    for (unsigned i = 0; i < valuesSize; ++i) {
       if (values[i] < min)
       {
         min = values[i];
@@ -25,9 +25,9 @@ namespace stats
   double get_max_element(vector<double>& values)
   {
     double max = numeric_limits<double>::min();
-    int valuesSize = values.size();
+    unsigned valuesSize = values.size();
     
-    for (int i = 0; i < valuesSize; ++i) {
+    for (unsigned i = 0; i < valuesSize; ++i) {
       if (values[i] > max)
       {
         max = values[i];
@@ -39,7 +39,7 @@ namespace stats
   // returns the median value of a double vector
   double get_median_value(vector<double>& values)
   {
-    int valuesSize = values.size();
+    unsigned valuesSize = values.size();
     sort(values.begin(), values.begin() + valuesSize);
     
     double median;
@@ -65,7 +65,7 @@ namespace stats
     
     double mean = get_mean_value(values);
     double sumOfSquareDifferences = 0;
-    for (int i = 0; i < size; ++i)
+    for (unsigned i = 0; i < size; ++i)
     {
       sumOfSquareDifferences += (values[i] - mean) * (values[i] - mean);
     }
@@ -77,8 +77,8 @@ namespace stats
   // returns the pearson correlation coefficient for two double vectors
   double get_correlation_coefficient(vector<double>& xvals, vector<double>& yvals)
   {
-    int xvalsSize = xvals.size();
-    int yvalsSize = yvals.size();
+    unsigned xvalsSize = xvals.size();
+    unsigned yvalsSize = yvals.size();
     if (xvalsSize != yvalsSize)
     {
       throw std::invalid_argument("the sets of values should be of equal length");
@@ -90,7 +90,7 @@ namespace stats
     double yvalsStandardDeviation = get_standard_deviation(yvals);
     
     double numerator = 0;
-    for (int i = 0; i < xvalsSize; ++i)
+    for (unsigned i = 0; i < xvalsSize; ++i)
     {
       numerator += (xvals[i] - xvalsMean) * (yvals[i] - yvalsMean);
     }

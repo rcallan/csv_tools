@@ -10,6 +10,14 @@ using namespace std;
 
 typedef csv_file DataType;
 
+
+void showHelp()
+{
+  cout << "usage- csvarith [--path <path>] [--output_path <output path>] [--columns COLUMNS]"
+    << "[--operator OPERATOR]" << endl << endl << "The csvarith utility allows you to perform column "
+    << "arithmetic on csv files." << endl;
+}
+
 int main(int argc, char** argv)
 {
   // keep track of total run time
@@ -21,19 +29,16 @@ int main(int argc, char** argv)
   
   if (parameterSet.showHelp == true)
   {
-    cout << "usage- csvarith [--path <path>] [--output_path <output path>] [--columns COLUMNS]"
-    << "[--operator OPERATOR]" << endl << endl << "The csvarith utility allows you to perform column "
-    << "arithmetic on csv files." << endl;
+    showHelp();
     return 0;
   }
   
   parameters::verify_parameters(parameterSet, true);
   
   // read csv file
-  DataType::Ptr csvFile(csv_file::read_data(parameterSet.filePath));
+  DataType::Ptr csvFile(DataType::read_data(parameterSet.filePath));
   
-  cout << "the size of the data is " << csvFile->get_num_rows() << " rows by "
-  << csvFile->get_num_columns() << " columns" << endl;
+  csvFile->printSize("input");
   
   DataType::Ptr outputcsvFile = csv_operations::perform_column_op(csvFile, parameterSet.myoper,
                                                          parameterSet.colsToUse);

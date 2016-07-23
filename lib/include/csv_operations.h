@@ -21,20 +21,20 @@ using namespace std;
 namespace csv_operations
 {
   
-  vector<int> get_bounds(int size, int numRows, int numColumns, int numSubsets);
+  vector<unsigned> get_bounds(unsigned size, unsigned numRows, unsigned numColumns, unsigned numSubsets);
   
   void verify_data_format(const csv_file &csvFile);
   
   csv_file::Ptr do_arith_operation_subset(csv_file::Ptr csvFile, function<double(double, double)> myoper,
-                                          int firstRow, int lastRow, int firstCol, int secondCol);
+                                          unsigned firstRow, unsigned lastRow, unsigned firstCol, unsigned secondCol);
   
   csv_file::Ptr perform_column_op_subset(csv_file::Ptr csvFile, function<double(double, double)> myoper,
-                                         int firstRow, int lastRow, vector<string> colsToUse);
+                                         unsigned firstRow, unsigned lastRow, vector<string> colsToUse);
   
   csv_file::Ptr perform_column_op(csv_file::Ptr csvFile, function<double(double, double)> myoper,
                                   vector<string> colsToUse);
   
-  void show_single_column_stats(vector<double> values, int col_idx, string otherStat);
+  void show_single_column_stats(vector<double> values, unsigned col_idx, string otherStat);
   
   void show_multiple_column_stats(const csv_file &csvFile, vector<string> colsToUse, string otherStat);
   
