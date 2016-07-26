@@ -59,19 +59,19 @@ namespace parameters
       }
       else if ( !strcmp(argv[i], "--operator") )
       {
-        if ( !strcmp(argv[i + 1], "--addition") )
+        if ( !strcmp(argv[i + 1], "addition") )
         {
           parameterSet.myoper = std::plus<double>();
         }
-        else if ( !strcmp(argv[i + 1], "--subtraction") )
+        else if ( !strcmp(argv[i + 1], "subtraction") )
         {
           parameterSet.myoper = std::minus<double>();
         }
-        else if ( !strcmp(argv[i + 1], "--multiplication") )
+        else if ( !strcmp(argv[i + 1], "multiplication") )
         {
           parameterSet.myoper = std::multiplies<double>();
         }
-        else if ( !strcmp(argv[i + 1], "--division") )
+        else if ( !strcmp(argv[i + 1], "division") )
         {
           parameterSet.myoper = std::divides<double>();
         }

@@ -62,7 +62,7 @@ namespace csv_operations
   DataType::Ptr do_arith_operation_subset(DataType::Ptr updatedcsvFile, function<double(double, double)> myoper,
                                           unsigned firstRow, unsigned lastRow, unsigned firstCol, unsigned secondCol)
   {
-    unsigned newNumColumns = updatedcsvFile->get_num_columns();
+    unsigned newNumColumns = updatedcsvFile->get_num_columns() + 1;
     unsigned numRows = updatedcsvFile->get_num_rows();
     updatedcsvFile->set_num_columns(newNumColumns);
     
@@ -76,7 +76,7 @@ namespace csv_operations
       updatedcsvFile->values(i, newNumColumns - 1) = to_string(myoper(stod(csvFile.values(i, firstCol)),
                                                                       stod(csvFile.values(i, secondCol))));
     }
-    
+
     return updatedcsvFile;
   }
   
@@ -131,7 +131,7 @@ namespace csv_operations
     
   }
   
-  void show_multiple_column_stats(const DataType &csvFile, vector<string> colsToUse, string otherStat)
+  void show_multiple_column_stats(const DataType& csvFile, vector<string> colsToUse, string otherStat)
   {
     unsigned numColumns = csvFile.get_num_columns();
     unsigned numColstoUse = colsToUse.size();
