@@ -10,12 +10,11 @@ using namespace std;
 
 void showHelp()
 {
-  cout << "usage- csvstatistics [--path <path>] [--columns COLUMNS] [--other_stat"
-    << " OTHERSTATISTIC]" << endl << endl << "optional arguments" << endl << endl
-    << "--other_stat - provides desired information about the columns instead of"
-    << " default statistics. available arguments are standard_deviation, correlation_coefficient,   and none (default)"
-    << endl << endl << "The csvstatistics tool shows some statistics about"
-    << " specified columns of a csv file." << endl;
+  cout << "usage- csvstatistics [--path <path>] [--columns COLUMNS] [--other_stat OTHERSTATISTIC]\n" 
+  "optional arguments\n--other_stat - provides desired information about the columns instead of" 
+  " default statistics. available arguments are standard_deviation, correlation_coefficient, " 
+  "and none (default)\n\n" 
+  "The csvstatistics tool shows some statistics about specified columns of a csv file.\n";
 }
 
 int main(int argc, char** argv)
@@ -36,5 +35,6 @@ int main(int argc, char** argv)
   
   csv_operations::show_multiple_column_stats(*csvFile, parameterSet.colsToUse, parameterSet.otherStat);
   
+  return 0;
 }
 

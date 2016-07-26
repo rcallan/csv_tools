@@ -18,6 +18,6 @@ You can then navigate to `bin/`, which is located in the top level directory of 
 
 ##Usage and examples
 
-There is more information [here](Usageandexamples.md) on how to use the tools, as well as some examples.
+There is more information [here](Usageandexamples.md) on how to use the tools, as well as some examples
 
 

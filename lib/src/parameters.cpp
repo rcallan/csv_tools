@@ -9,94 +9,82 @@ namespace parameters
   
   parameter_set parse_arguments(int argc, char** argv)
   {
-    
     parameter_set parameterSet;
-    string arg, optionArg;
     
     for (unsigned i = 1; i < argc; ++i)
     {
-      arg = argv[i];
       
-      if (arg == "--help")
+      if ( !strcmp(argv[i], "--help") )
       {
         parameterSet.showHelp = true;
-        break;
+        return parameterSet;
       }
-      if (arg.substr(0,2) == "--")
+      ++parameterSet.numOptions;
+      if ( !strcmp(argv[i], "--path") )
       {
-        parameterSet.numOptions++;
-        if (i < argc - 1)
-        {
-          optionArg = argv[i + 1];
-        }
-        if (i + 1 == argc || optionArg.substr(0,2) == "--")
-        {
-          cerr << "one of the options given is missing an argument" << endl;
-          exit(1);
-        }
+        parameterSet.filePath = argv[++i];
       }
-      if (arg == "--path")
+      else if ( !strcmp(argv[i], "--path2") )
       {
-        parameterSet.filePath = argv[i+1];
+        parameterSet.filePath2 = argv[++i];
       }
-      else if (arg == "--path2")
+      else if ( !strcmp(argv[i], "--output_path") )
       {
-        parameterSet.filePath2 = argv[i+1];
+        parameterSet.outputPath = argv[++i];
       }
-      else if (arg == "--output_path")
+      else if ( !strcmp(argv[i], "--columns") || !strcmp(argv[i], "--columns_to_join_on"))
       {
-        parameterSet.outputPath = argv[i+1];
-      }
-      else if (arg == "--columns" || arg == "--columns_to_join_on")
-      {
+        string optionArg = argv[++i];
         string_operations::split_line(optionArg, ",", parameterSet.colsToUse);
       }
-      else if (arg == "--operation")
+      else if ( !strcmp(argv[i], "--operation") )
       {
-        parameterSet.operation = argv[i+1];
+        parameterSet.operation = argv[++i];
       }
-      else if (arg == "--print_values")
+      else if ( !strcmp(argv[i], "--print_values") )
       {
-        if (optionArg == "off")
+        if ( !strcmp(argv[i + 1], "off") )
         {
           parameterSet.printValues = false;
         }
+        ++i;
       }
-      if (arg == "--other_stat")
+      else if ( !strcmp(argv[i], "--other_stat") )
       {
-        parameterSet.otherStat = argv[i + 1];
+        parameterSet.otherStat = argv[++i];
       }
-      else if (arg == "--n_threads")
+      else if ( !strcmp(argv[i], "--n_threads") )
       {
-        parameterSet.numThreads = stoi(argv[i+1]);
+        parameterSet.numThreads = stoi(argv[++i]);
       }
-      else if (arg == "--operator")
+      else if ( !strcmp(argv[i], "--operator") )
       {
-        if (string(argv[i + 1]) == "addition")
+        if ( !strcmp(argv[i + 1], "--addition") )
         {
           parameterSet.myoper = std::plus<double>();
         }
-        else if (string(argv[i + 1]) == "subtraction")
+        else if ( !strcmp(argv[i + 1], "--subtraction") )
         {
           parameterSet.myoper = std::minus<double>();
         }
-        else if (string(argv[i + 1]) == "multiplication")
+        else if ( !strcmp(argv[i + 1], "--multiplication") )
         {
           parameterSet.myoper = std::multiplies<double>();
         }
-        else if (string(argv[i + 1]) == "division")
+        else if ( !strcmp(argv[i + 1], "--division") )
         {
           parameterSet.myoper = std::divides<double>();
         }
+        ++i;
       }
     }
     
-    // we use one thread if above function returns zero
+    // we use one thread if built in function returns zero
     if (parameterSet.numThreads == 0)
     {
       parameterSet.numThreads = 1;
     }
-    
+
     cout << "number of options given is " << parameterSet.numOptions << endl;
     
     return parameterSet;

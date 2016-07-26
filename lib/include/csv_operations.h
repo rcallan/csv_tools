@@ -12,18 +12,16 @@
 #include <functional>
 #include <vector>
 #include <algorithm>
-#include <memory>
 #include "csv_file.h"
 
 using namespace std;
-
 
 namespace csv_operations
 {
   
   vector<unsigned> get_bounds(unsigned size, unsigned numRows, unsigned numColumns, unsigned numSubsets);
   
-  void verify_data_format(const csv_file &csvFile);
+  void verify_data_format(const csv_file& csvFile);
   
   csv_file::Ptr do_arith_operation_subset(csv_file::Ptr csvFile, function<double(double, double)> myoper,
                                           unsigned firstRow, unsigned lastRow, unsigned firstCol, unsigned secondCol);
@@ -34,15 +32,15 @@ namespace csv_operations
   csv_file::Ptr perform_column_op(csv_file::Ptr csvFile, function<double(double, double)> myoper,
                                   vector<string> colsToUse);
   
-  void show_single_column_stats(vector<double> values, unsigned col_idx, string otherStat);
+  void show_single_column_stats(vector<double>& values, unsigned col_idx, string otherStat);
   
-  void show_multiple_column_stats(const csv_file &csvFile, vector<string> colsToUse, string otherStat);
+  void show_multiple_column_stats(const csv_file& csvFile, vector<string> colsToUse, string otherStat);
   
-  void edit_columns(csv_file::Ptr& csvFile, vector<string> colsToUse);
+  void edit_columns(csv_file::Ptr csvFile, vector<string> colsToUse);
   
-  void print_csv_values(const csv_file& csvFile);
+  void print_csv_values(const csv_file::Ptr csvFile);
   
-  csv_file::Ptr join_data_sets(const csv_file &csvFile, const csv_file &csvFile2, vector<string> colToUse,
+  csv_file::Ptr join_data_sets(const csv_file& csvFile, const csv_file& csvFile2, vector<string> colToUse,
                                string operation);
   
   

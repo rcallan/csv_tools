@@ -6,6 +6,7 @@
 #define ____matrix__
 
 #include <vector>
+#include <iostream>
 
 template<typename T>
 class matrix
@@ -13,7 +14,7 @@ class matrix
 public:
   matrix();
   matrix(unsigned nrows, unsigned ncols);
-  // use a bad_size object if either size if zero
+  // use a wrong_size object if either size if zero
   class wrong_size { };
   
   T& operator() (unsigned i, unsigned j);
@@ -47,8 +48,8 @@ inline unsigned matrix<T>::ncols() const
 template<typename T>
 inline void matrix<T>::resize_matrix(unsigned nrows, unsigned ncols)
 {
-  //if (nrows == 0 || ncols == 0)
-  //  throw wrong_size();
+  if (nrows == 0 || ncols == 0)
+    throw wrong_size();
   data_.resize(ncols);
   for (unsigned i = 0; i < nrows; ++i)
     data_[i].resize(nrows);

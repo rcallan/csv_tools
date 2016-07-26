@@ -25,12 +25,10 @@ public:
   csv_file(unsigned numRows_, unsigned numColumns_, matrix<string> values_)
   : values(values_), numRows(numRows_), numColumns(numColumns_) {}
   
-  /*
-  ~csv_file()
-  {
-    cout << "deleting csv file object" << endl;
-  }
-  */
+  // ~csv_file() 
+  // { 
+  //   cout << "deleted csv file object" << endl;
+  // }
   
   void set_num_rows(unsigned numRows_) { numRows = numRows_; }
   void set_num_columns(unsigned numColumns_) { numColumns = numColumns_; }

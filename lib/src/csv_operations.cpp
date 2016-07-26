@@ -42,8 +42,8 @@ namespace csv_operations
       {
         if (csvFile.values(i, j) == "inf")
         {
-          cerr << "input data should not contain infinite values" << endl;
-          exit(1);
+          //todo: maybe add a new exception class for this
+          throw std::invalid_argument("input data should not contain infinite values");
         }
       }
     }
@@ -115,7 +115,7 @@ namespace csv_operations
   }
   
   // output the column index, minimum, maximum, median, and average values
-  void show_single_column_stats(vector<double> column, unsigned col_idx, string otherStat)
+  void show_single_column_stats(vector<double>& column, unsigned col_idx, string otherStat)
   {
 
     cout << "column " << col_idx << " - ";
@@ -180,7 +180,7 @@ namespace csv_operations
   }
   
   // removes columns that are no longer desired
-  void edit_columns(DataType::Ptr& csvFile, vector<string> colsToUse)
+  void edit_columns(DataType::Ptr csvFile, vector<string> colsToUse)
   {
     unsigned numOutputCols = colsToUse.size();
     
@@ -195,17 +195,17 @@ namespace csv_operations
     csvFile->set_num_columns(numOutputCols);
   }
   
-  void print_csv_values(const DataType& csvFile)
+  void print_csv_values(DataType::Ptr csvFile)
   {
     
-    unsigned numColumns = csvFile.get_num_columns();
-    unsigned numRows = csvFile.get_num_rows();
+    unsigned numColumns = csvFile->get_num_columns();
+    unsigned numRows = csvFile->get_num_rows();
     
     for (unsigned i = 0; i < numRows; ++i)
     {
       for (unsigned j = 0; j < numColumns; ++j)
       {
-        cout << csvFile.values(i, j);
+        cout << csvFile->values(i, j);
         if (j < numColumns - 1)
         {
           cout << ", ";
@@ -236,10 +236,6 @@ namespace csv_operations
   DataType::Ptr join_data_sets(const DataType &csvFile, const DataType &csvFile2, vector<string> colsToUse,
                                string operation)
   {
-    unsigned numRows = csvFile.get_num_rows();
-    unsigned numColumns = csvFile.get_num_columns();
-    unsigned numRows2 = csvFile2.get_num_rows();
-    unsigned numColumns2 = csvFile2.get_num_columns();
     unsigned numColstoUse = colsToUse.size();
     unsigned colIndex = stoi(colsToUse[0]);
     unsigned colIndex2;
@@ -252,7 +248,12 @@ namespace csv_operations
     {
       colIndex2 = colIndex;
     }
-    
+
+    unsigned numRows = csvFile.get_num_rows();
+    unsigned numColumns = csvFile.get_num_columns();
+    unsigned numRows2 = csvFile2.get_num_rows();
+    unsigned numColumns2 = csvFile2.get_num_columns();
+
     if (colIndex < 0 || colIndex > numColumns - 1
         || colIndex2 < 0 || colIndex2 > numColumns2 - 1)
     {

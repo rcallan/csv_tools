@@ -10,11 +10,10 @@ using namespace std;
 
 void showHelp()
 {
-  cout << "usage- csvcolumnselector [--path <path>] [--output_path <output path>] [--columns COLUMNS]" << endl
-    << endl << "The csvcolumnselector utility allows you to "
-    << "select and save only particular columns of a csv file." << endl;
+  cout << "usage- csvcolumnselector [--path <path>] [--output_path <output path>] [--columns COLUMNS]\n\n" 
+  "The csvcolumnselector utility allows you to " 
+  "select and save only particular columns of a csv file.\n";
 }
-
 
 int main(int argc, char** argv)
 {
@@ -38,5 +37,6 @@ int main(int argc, char** argv)
   
   csv_file::write_data(*csvFile, parameterSet.outputPath);
   
+  return 0;
 }
 

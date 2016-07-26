@@ -8,10 +8,9 @@ namespace string_operations
 {
   
   // splits a string into pieces based on specified delimiter
-  void split_line(string &line, string delim, vector<vector<string>>& values)
+  void split_line(string& line, string delim, vector<vector<string>>& values)
   {
     size_t pos = 0;
-    string p;
     unsigned columnIndex = 0;
     while ((pos = line.find(delim, 0)) != string::npos)
     {
@@ -26,7 +25,7 @@ namespace string_operations
     }
   }
   
-  void split_line(string &line, string delim, vector<string>& values)
+  void split_line(string& line, string delim, vector<string>& values)
   {
     size_t pos = 0;
     string p;

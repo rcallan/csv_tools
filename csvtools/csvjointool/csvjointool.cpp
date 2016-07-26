@@ -10,9 +10,9 @@ using namespace std;
 
 void showHelp()
 {
-  cout << "usage- csvjointool [--path <path>] [--path2 <second path>] [--output_path <output path>] "
-    << "[--columns_to_join_on COLUMNKEYS] [--operation OPERATION]" << endl
-    << endl << "The csvjointool utility performs inner and outer joins on csv files." << endl;
+  cout << "usage- csvjointool [--path <path>] [--path2 <second path>] [--output_path <output path>] " 
+  "[--columns_to_join_on COLUMNKEYS] [--operation OPERATION]\n\n" 
+  "The csvjointool utility performs inner and outer joins on csv files.\n";
 }
 
 int main(int argc, char** argv)
@@ -48,5 +48,6 @@ int main(int argc, char** argv)
   duration = (clock() - start) / (double) CLOCKS_PER_SEC;
   cout << "it took " << duration << " seconds to complete the operation" << endl;
   
+  return 0;
 }
 

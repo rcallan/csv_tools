@@ -9,6 +9,7 @@
 #include <vector>
 #include <functional>
 #include <thread>
+#include <cstring>
 #include "string_operations.h"
 
 using namespace std;
@@ -16,9 +17,8 @@ using namespace std;
 namespace parameters
 {
   
-  class parameter_set
+  struct parameter_set
   {
-  public:
     parameter_set()
     {
       showHelp = false;
@@ -47,7 +47,7 @@ namespace parameters
   
   parameter_set parse_arguments(int argc, char** argv);
   
-  void verify_parameters(const parameter_set &parameterSet, bool outputPathRequired = false);
+  void verify_parameters(const parameter_set& parameterSet, bool outputPathRequired = false);
   
 }
 

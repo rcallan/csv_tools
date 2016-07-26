@@ -8,7 +8,6 @@
 #include <vector>
 #include <numeric>
 #include <algorithm>
-#include <stdexcept>
 
 using namespace std;
 

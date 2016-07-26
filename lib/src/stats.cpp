@@ -12,7 +12,8 @@ namespace stats
     double min = numeric_limits<double>::max();
     unsigned valuesSize = values.size();
     
-    for (unsigned i = 0; i < valuesSize; ++i) {
+    for (unsigned i = 0; i < valuesSize; ++i) 
+    {
       if (values[i] < min)
       {
         min = values[i];
@@ -27,7 +28,8 @@ namespace stats
     double max = numeric_limits<double>::min();
     unsigned valuesSize = values.size();
     
-    for (unsigned i = 0; i < valuesSize; ++i) {
+    for (unsigned i = 0; i < valuesSize; ++i) 
+    {
       if (values[i] > max)
       {
         max = values[i];

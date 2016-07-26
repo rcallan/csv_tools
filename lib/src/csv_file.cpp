@@ -37,7 +37,7 @@ DataType * csv_file
     }
     else
     {
-      //csvFile->values.data_[numRows - 1].push_back(value);
+      csvFile->values.data_[0].push_back(value);
     }
   }
   
