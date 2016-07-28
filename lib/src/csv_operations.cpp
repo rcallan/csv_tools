@@ -77,6 +77,10 @@ namespace csv_operations
                                                                       stod(csvFile.values(i, secondCol))));
     }
 
+    // parallel::Range range(firstRow, lastRow);
+    // PerformColumnOpSubsetBody p(updatedcsvFile, myoper, firstRow, lastRow, firstCol, secondCol);
+    // parallel::parallel_for_(range, p);
+
     return updatedcsvFile;
   }
   

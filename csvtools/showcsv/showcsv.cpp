@@ -6,6 +6,8 @@
 #include "string_operations.h"
 #include "parameters.h"
 
+#include <sys/sysctl.h>
+
 using namespace std;
 
 void showHelp()
@@ -18,7 +20,7 @@ void showHelp()
 int main(int argc, char** argv)
 {
   parameters::parameter_set parameterSet = parameters::parse_arguments(argc, argv);
-  
+
   if (parameterSet.showHelp == true)
   {
     showHelp();

@@ -32,7 +32,7 @@ namespace parameters
       {
         parameterSet.outputPath = argv[++i];
       }
-      else if ( !strcmp(argv[i], "--columns") || !strcmp(argv[i], "--columns_to_join_on"))
+      else if ( !strcmp(argv[i], "--columns") || !strcmp(argv[i], "--columns_to_join_on") )
       {
         string optionArg = argv[++i];
         string_operations::split_line(optionArg, ",", parameterSet.colsToUse);
@@ -80,7 +80,7 @@ namespace parameters
     }
     
     // we use one thread if built in function returns zero
-    if (parameterSet.numThreads == 0)
+    if (parameterSet.numThreads)
     {
       parameterSet.numThreads = 1;
     }
