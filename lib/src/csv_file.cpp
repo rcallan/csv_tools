@@ -22,7 +22,6 @@ DataType * csv_file
   while (file.good())
   {
     ++numRows;
-    csvFile->values.data_.push_back(vector<string>());
     getline(file, value, '\n');
     
     if (numRows == 1)

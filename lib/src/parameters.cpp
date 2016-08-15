@@ -80,7 +80,7 @@ namespace parameters
     }
     
     // we use one thread if built in function returns zero
-    if (parameterSet.numThreads)
+    if (parameterSet.numThreads == 0)
     {
       parameterSet.numThreads = 1;
     }
