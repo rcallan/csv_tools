@@ -1,2 +1,0 @@
-/usr/bin/ar qc liblib.a  CMakeFiles/lib.dir/src/csv_file.cpp.o CMakeFiles/lib.dir/src/csv_operations.cpp.o CMakeFiles/lib.dir/src/matrix.cpp.o CMakeFiles/lib.dir/src/ml.cpp.o CMakeFiles/lib.dir/src/parameters.cpp.o CMakeFiles/lib.dir/src/stats.cpp.o CMakeFiles/lib.dir/src/string_operations.cpp.o
-/usr/bin/ranlib liblib.a

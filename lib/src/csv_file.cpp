@@ -21,6 +21,7 @@ DataType * csv_file
   
   while (file.good())
   {
+    // unsigned numItemsinRow = 0;
     ++numRows;
     getline(file, value, '\n');
     
@@ -32,7 +33,12 @@ DataType * csv_file
     
     if (value.find(',') != string::npos)
     {
+      // ++numItemsinRow;
       string_operations::split_line(value, ",", csvFile->values.data_);
+    }
+    else if (numRows > 1)
+    {
+      --numRows;
     }
     else
     {

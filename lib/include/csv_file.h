@@ -52,6 +52,10 @@ public:
 
   vector<double> get_column(unsigned colIndex) const
   {
+    if (numRows == 0 || numColumns == 0)
+    {
+      throw std::out_of_range("number of columns or rows should probably not be zero");
+    }
     vector<double> column(numRows);
     for (unsigned i = 0; i < numRows; ++i)
     {

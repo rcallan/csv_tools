@@ -4,5 +4,10 @@ build
 # ignore any executables
 bin/*
 
+# ignore test data files
+testdata
+
+.vscode
+
 # ignore mac specific files
 .DS_Store
