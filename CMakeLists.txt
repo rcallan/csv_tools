@@ -6,11 +6,13 @@ set(CMAKE_CXX_FLAGS "-std=c++20 -pthread")
 
 add_subdirectory(lib)
 
-add_subdirectory(csvtools/csvcolumnselector)
-add_subdirectory(csvtools/csvarith)
-add_subdirectory(csvtools/csvjointool)
-add_subdirectory(csvtools/csvstatistics)
-add_subdirectory(csvtools/showcsv)
-add_subdirectory(csvtools/csvml)
+add_subdirectory(tradertools/csvcolumnselector)
+add_subdirectory(tradertools/csvarith)
+add_subdirectory(tradertools/csvjointool)
+add_subdirectory(tradertools/csvstatistics)
+add_subdirectory(tradertools/showcsv)
+add_subdirectory(tradertools/csvml)
+
+add_subdirectory(tradertools/backtester)
 
 install(DIRECTORY DESTINATION "${PROJECT_SOURCE_DIR}/bin/")
