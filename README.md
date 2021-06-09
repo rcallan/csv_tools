@@ -10,7 +10,8 @@ Open the command line/terminal, navigate to a directory that you will build the 
 and execute the following commands to build the project and create the necessary executables.
 
 ```
-cmake <path to directory for this project>
+mkdir build && cd build
+cmake .. -B .
 make
 sudo make install
 ```
