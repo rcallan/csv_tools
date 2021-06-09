@@ -2,7 +2,8 @@
 #### Purpose of project
 
 The tools included in this package allow you to manipulate, display, modify, and retrieve basic
-statistics on the columns of your csv data.
+statistics on the columns of your csv data. We will be adding other tools that could be relevant for securities traders such as
+back tester and possibly execution and risk tools
 
 #### Building the project
 
@@ -20,6 +21,6 @@ You can then navigate to `bin/`, which is located in the top level directory of 
 
 #### Usage and examples
 
-There is more information [here](Usageandexamples.md) on how to use the tools, as well as some examples
+There is more information [here](usage.md) on how to use the tools, as well as some examples
 
 
