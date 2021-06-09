@@ -7,6 +7,7 @@
 #include "csv_file.h"
 #include <chrono>
 #include <string>
+#include <pthread.h>
 
 using namespace std;
 

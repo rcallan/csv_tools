@@ -3,6 +3,7 @@
 //
 
 #include "ml.h"
+#include <functional>
 
 namespace ml
 {

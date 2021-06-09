@@ -3,6 +3,8 @@
 //
 
 #include "stats.h"
+#include <math.h>
+#include <stdexcept>
 
 namespace stats
 {

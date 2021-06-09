@@ -6,7 +6,7 @@
 #include "string_operations.h"
 #include "parameters.h"
 
-#include <sys/sysctl.h>
+// #include <sys/sysctl.h>
 
 using namespace std;
 

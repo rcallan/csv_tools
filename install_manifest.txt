@@ -1,0 +1,6 @@
+/home/recal/dev/github.com/csv_tools/bin/csvcolumnselector
+/home/recal/dev/github.com/csv_tools/bin/csvarith
+/home/recal/dev/github.com/csv_tools/bin/csvjointool
+/home/recal/dev/github.com/csv_tools/bin/csvstatistics
+/home/recal/dev/github.com/csv_tools/bin/showcsv
+/home/recal/dev/github.com/csv_tools/bin/csvml
