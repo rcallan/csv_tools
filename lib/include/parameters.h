@@ -10,7 +10,7 @@
 #include <functional>
 #include <thread>
 #include <cstring>
-#include "string_operations.h"
+#include "StringOperations.h"
 
 using namespace std;
 

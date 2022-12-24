@@ -2,8 +2,8 @@
 //  csvjointool.cpp
 //
 
-#include "csv_operations.h"
-#include "string_operations.h"
+#include "CsvOperations.h"
+#include "StringOperations.h"
 #include "parameters.h"
 
 using namespace std;

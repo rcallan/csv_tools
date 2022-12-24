@@ -2,8 +2,8 @@
 //  csv_operations.cpp
 //
 
-#include "csv_operations.h"
-#include "string_operations.h"
+#include "CsvOperations.h"
+#include "StringOperations.h"
 #include "stats.h"
 
 #define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))

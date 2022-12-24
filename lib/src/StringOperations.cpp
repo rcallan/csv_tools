@@ -2,7 +2,7 @@
 //  string_operations.cpp
 //
 
-#include "string_operations.h"
+#include "StringOperations.h"
 
 namespace string_operations
 {

@@ -2,8 +2,8 @@
 //  backtester.cpp
 //
 
-#include "csv_operations.h"
-#include "string_operations.h"
+#include "CsvOperations.h"
+#include "StringOperations.h"
 #include "parameters.h"
 
 void showHelp()
