@@ -6,36 +6,36 @@
 #include "StringOperations.h"
 #include "parameters.h"
 
-using namespace std;
+
 
 void showHelp()
 {
-  cout << "usage- csvcolumnselector [--path <path>] [--output_path <output path>] [--columns COLUMNS]\n\n" 
+  std::cout << "usage- csvcolumnselector [--path <path>] [--output_path <output path>] [--columns COLUMNS]\n\n" 
   "The csvcolumnselector utility allows you to " 
   "select and save only particular columns of a csv file.\n";
 }
 
 int main(int argc, char** argv)
 {
-  parameters::parameter_set parameterSet = parameters::parse_arguments(argc, argv);
+  parameters::ParameterSet pset = parameters::parse_arguments(argc, argv);
   
-  if (parameterSet.showHelp == true)
+  if (pset.showHelp == true)
   {
     showHelp();
     return 0;
   }
   
-  parameters::verify_parameters(parameterSet, true);
+  parameters::verify_parameters(pset, true);
   
-  csv_file::Ptr csvFile(csv_file::read_data(parameterSet.filePath));
+  CsvFile::Ptr csvFile(CsvFile::read_data(pset.filePath));
   
   csvFile->printSize("input");
   
-  csv_operations::edit_columns(csvFile, parameterSet.colsToUse);
+  csv_operations::edit_columns(csvFile, pset.colsToUse);
   
   csvFile->printSize("output");
   
-  csv_file::write_data(*csvFile, parameterSet.outputPath);
+  CsvFile::write_data(csvFile, pset.outputPath);
   
   return 0;
 }

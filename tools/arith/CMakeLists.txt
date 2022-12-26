@@ -4,8 +4,6 @@ add_subdirectory(../../lib lib)
 
 include_directories(${SHARED_LIB_INCLUDE_DIR})
 
-set(CMAKE_CXX_FLAGS "-std=c++2a -lpthread")
-
 set(SRCS arith.cpp)
 add_executable(arith ${SRCS})
 target_link_libraries(arith lib)

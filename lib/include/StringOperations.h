@@ -1,5 +1,5 @@
 //
-//  string_operations.h
+//  std::string_operations.h
 //
 
 #ifndef ____string_operations__
@@ -10,16 +10,16 @@
 #include <vector>
 #include <algorithm>
 
-using namespace std;
 
-namespace string_operations
+
+namespace std::string_operations
 {
   
-  void split_line(string& line, string delim, vector<vector<string>>& values);
+  void split_line(std::string& line, std::string delim, std::vector<std::vector<std::string>>& values);
   
-  void split_line(string& line, string delim, vector<string>& values);
+  void split_line(std::string& line, std::string delim, std::vector<std::string>& values);
   
-};
+}
 
 #endif /* defined(____string_operations__) */
 

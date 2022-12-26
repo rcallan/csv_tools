@@ -1,5 +1,5 @@
 //
-//  csv_file.cpp
+//  CsvFile.cpp
 //
 
 #include "CsvFile.h"
@@ -8,14 +8,11 @@
 
 #define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
 
-typedef csv_file DataType;
-
-DataType * csv_file
-::read_data(char* path)
+CsvFile* CsvFile::read_data(char* path)
 {
-  ifstream file (path);
-  string value;
-  DataType * csvFile = new DataType();
+  std::ifstream file (path);
+  std::string value;
+  CsvFile* csvFile = new CsvFile();
   unsigned numRows = 0;
   unsigned numColumns = 0;
   
@@ -23,7 +20,7 @@ DataType * csv_file
   {
     // unsigned numItemsinRow = 0;
     ++numRows;
-    getline(file, value, '\n');
+    std::getline(file, value, '\n');
     
     if (numRows == 1)
     {
@@ -31,10 +28,10 @@ DataType * csv_file
       csvFile->values.data_.resize(numColumns);
     }
     
-    if (value.find(',') != string::npos)
+    if (value.find(',') != std::string::npos)
     {
       // ++numItemsinRow;
-      string_operations::split_line(value, ",", csvFile->values.data_);
+      std::string_operations::split_line(value, ",", csvFile->values.data_);
     }
     else if (numRows > 1)
     {
@@ -42,7 +39,7 @@ DataType * csv_file
     }
     else
     {
-      csvFile->values.data_[0].push_back(value);
+      csvFile->values.data_[0].push_back(std::move(value));
     }
   }
   
@@ -51,18 +48,17 @@ DataType * csv_file
   return csvFile;
 }
 
-void csv_file
-::write_data(const DataType &csvFile, char* path)
+void CsvFile::write_data(CsvFile::PtrC csvFile, char* path)
 {
-  ofstream output_file (path);
-  unsigned numRows = csvFile.get_num_rows();
-  unsigned numColumns = csvFile.get_num_columns();
+  std::ofstream output_file (path);
+  unsigned numRows = csvFile->get_num_rows();
+  unsigned numColumns = csvFile->get_num_columns();
   
   for (unsigned i = 0; i < numRows; ++i)
   {
     for (unsigned j = 0; j < numColumns; ++j)
     {
-      output_file << csvFile.values(i, j);
+      output_file << csvFile->values(i, j);
       if (j < numColumns - 1)
       {
         output_file << ",";
@@ -76,17 +72,20 @@ void csv_file
   output_file.close();
 }
 
-void csv_file
-::write_data_subset(const DataType &csvFile, ofstream &outputFile,
-                    unsigned firstRow, unsigned lastRow, bool isFinalSubset)
+void CsvFile::write_data_subset(
+  CsvFile::PtrC csvFile, 
+  std::ofstream& outputFile,
+  unsigned firstRow, 
+  unsigned lastRow, 
+  bool isFinalSubset)
 {
-  unsigned numRows = csvFile.get_num_rows();
-  unsigned numColumns = csvFile.get_num_columns();
+  unsigned numRows = csvFile->get_num_rows();
+  unsigned numColumns = csvFile->get_num_columns();
   for (unsigned i = firstRow; i < lastRow; ++i)
   {
     for (unsigned j = 0; j < numColumns; ++j)
     {
-      outputFile << csvFile.values(i, j);
+      outputFile << csvFile->values(i, j);
       if (j < numColumns - 1)
       {
         outputFile << ",";

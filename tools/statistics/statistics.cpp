@@ -6,11 +6,11 @@
 #include "StringOperations.h"
 #include "parameters.h"
 
-using namespace std;
+
 
 void showHelp()
 {
-  cout << "usage- csvstatistics [--path <path>] [--columns COLUMNS] [--other_stat OTHERSTATISTIC]\n" 
+  std::cout << "usage- csvstatistics [--path <path>] [--columns COLUMNS] [--other_stat OTHERSTATISTIC]\n" 
   "optional arguments\n--other_stat - provides desired information about the columns instead of" 
   " default statistics. available arguments are standard_deviation, correlation_coefficient, " 
   "and none (default)\n\n" 
@@ -19,21 +19,21 @@ void showHelp()
 
 int main(int argc, char** argv)
 {
-  parameters::parameter_set parameterSet = parameters::parse_arguments(argc, argv);
+  parameters::ParameterSet pset = parameters::parse_arguments(argc, argv);
   
-  if (parameterSet.showHelp == true)
+  if (pset.showHelp == true)
   {
     showHelp();
     return 0;
   }
   
-  parameters::verify_parameters(parameterSet);
+  parameters::verify_parameters(pset);
   
-  csv_file::Ptr csvFile(csv_file::read_data(parameterSet.filePath));
+  CsvFile::Ptr csvFile(CsvFile::read_data(pset.filePath));
 
   csvFile->printSize("input data");
   
-  csv_operations::show_multiple_column_stats(*csvFile, parameterSet.colsToUse, parameterSet.otherStat);
+  csv_operations::show_multiple_column_stats(*csvFile, pset.colsToUse, pset.otherStat);
   
   return 0;
 }

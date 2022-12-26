@@ -6,43 +6,43 @@
 #include "StringOperations.h"
 #include "parameters.h"
 
-using namespace std;
 
 void showHelp()
 {
-  cout << "usage- csvarith [--path <path>] [--output_path <output path>] [--columns COLUMNS]" 
+  std::cout << "usage- csvarith [--path <path>] [--output_path <output path>] [--columns COLUMNS]" 
   "[--operator OPERATOR]\n\n" 
-  "The csvarith utility allows you to perform column arithmetic on csv files.\n";
+  "The csvarith utility allows you to perform column arithmetic on csv files. Commands to use for the\n"
+  "operator are addition, subtraction, multiplication and division. Also note that the columns are zero indexed values\n";
 }
 
 int main(int argc, char** argv)
-{
-  // keep track of total run time
-  clock_t start;
-  double duration;
-  start = clock();
+{ 
+  parameters::ParameterSet pset = parameters::parse_arguments(argc, argv);
   
-  parameters::parameter_set parameterSet = parameters::parse_arguments(argc, argv);
-  
-  if (parameterSet.showHelp == true)
+  if (pset.showHelp == true)
   {
     showHelp();
     return 0;
   }
   
-  parameters::verify_parameters(parameterSet, true);
+  parameters::verify_parameters(pset, true);
   
   // read csv file
-  csv_file::Ptr csvFile(csv_file::read_data(parameterSet.filePath));
+  CsvFile::Ptr csvFile(CsvFile::read_data(pset.filePath));
   
   csvFile->printSize("input");
+
+  // keep track of total operation time
+  auto start = std::chrono::steady_clock::now();
   
-  csv_file::Ptr outputcsvFile = csv_operations::perform_column_op(csvFile, parameterSet.myoper, 
-                                                                    parameterSet.colsToUse);
-  csv_file::write_data(*outputcsvFile, parameterSet.outputPath);
-  
-  duration = (clock() - start) / (double) CLOCKS_PER_SEC;
-  cout << "it took " << duration << " seconds to complete the operation" << endl;
+  CsvFile::PtrC outputcsvFile = csv_operations::perform_column_op(csvFile, pset.myoper, pset.colsToUse);
+
+  auto end = std::chrono::steady_clock::now();
+  auto diff = end - start;
+
+  CsvFile::write_data(outputcsvFile, pset.outputPath);
+
+  std::cout << "it took " << std::chrono::duration <double, std::milli> (diff).count() << " ms to complete the operation" << std::endl;
   
   return 0;
 }

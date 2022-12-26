@@ -7,11 +7,11 @@
 namespace parameters
 {
   
-  parameter_set parse_arguments(int argc, char** argv)
+  ParameterSet parse_arguments(int argc, char** argv)
   {
-    parameter_set parameterSet;
+    ParameterSet parameterSet;
     
-    for (unsigned i = 1; i < argc; ++i)
+    for (int i = 1; i < argc; ++i)
     {
       
       if ( !strcmp(argv[i], "--help") )
@@ -34,8 +34,8 @@ namespace parameters
       }
       else if ( !strcmp(argv[i], "--columns") || !strcmp(argv[i], "--columns_to_join_on") )
       {
-        string optionArg = argv[++i];
-        string_operations::split_line(optionArg, ",", parameterSet.colsToUse);
+        std::string optionArg = argv[++i];
+        std::string_operations::split_line(optionArg, ",", parameterSet.colsToUse);
       }
       else if ( !strcmp(argv[i], "--operation") )
       {
@@ -55,7 +55,7 @@ namespace parameters
       }
       else if ( !strcmp(argv[i], "--n_threads") )
       {
-        parameterSet.numThreads = stoi(argv[++i]);
+        parameterSet.numThreads = std::stoi(argv[++i]);
       }
       else if ( !strcmp(argv[i], "--operator") )
       {
@@ -85,28 +85,28 @@ namespace parameters
       parameterSet.numThreads = 1;
     }
 
-    cout << "number of options given is " << parameterSet.numOptions << endl;
+    std::cout << "number of options given is " << parameterSet.numOptions << std::endl;
     
     return parameterSet;
   }
   
-  void verify_parameters(const parameter_set &parameterSet, bool outputPathNeeded)
+  void verify_parameters(const ParameterSet &parameterSet, bool outputPathNeeded)
   {
     if (parameterSet.numOptions == 0)
     {
-      cerr << "arguments are required for the use of this tool" << endl;
+      std::cerr << "arguments are required for the use of this tool" << std::endl;
       exit(1);
     }
     if (!parameterSet.filePath || parameterSet.filePath[0] == '\0')
     {
-      cerr << "a path to input data must be provided" << endl;
+      std::cerr << "a path to input data must be provided" << std::endl;
       exit(1);
     }
     if (outputPathNeeded == true)
     {
       if (!parameterSet.outputPath || parameterSet.outputPath[0] == '\0')
       {
-        cerr << "a path to where output data will be saved must provided" << endl;
+        std::cerr << "a path to where output data will be saved must provided" << std::endl;
         exit(1);
       }
     }

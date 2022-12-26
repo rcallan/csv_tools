@@ -7,24 +7,21 @@
 
 #include <string>
 
-using namespace std;
+
 
 class conditions
 {
 public:
-    conditions();
-    conditions(string parameter, string comp_operator, double threshold);
+    conditions() = default;
+    conditions(std::string& parameter, std::string& comp_operator, double threshold)
+        : m_parameter(parameter), m_comp_operator(comp_operator), m_threshold(threshold) { }
     
+private:
     // possible parameters to filter on are date, time, open, high, low, and close
-    
-    string parameter;
-    string comp_operator;
-    double threshold;
+
+    std::string m_parameter {};
+    std::string m_comp_operator {};
+    double m_threshold {};
 };
-
-conditions::conditions() : threshold(0.0) { }
-
-conditions::conditions(string parameter_, string comp_operator_, double threshold_) : 
-    parameter(parameter_), comp_operator(comp_operator_), threshold(threshold_) { }
 
 #endif /* defined(____coniditions__) */

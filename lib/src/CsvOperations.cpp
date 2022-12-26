@@ -5,22 +5,22 @@
 #include "CsvOperations.h"
 #include "StringOperations.h"
 #include "stats.h"
+#include <sstream>
+#include <utility>
 
 #define ARRAY_SIZE(array) (sizeof((array))/sizeof((array[0])))
-
-typedef csv_file DataType;
 
 namespace csv_operations
 {
   // returns the indices that can be used to split the data up into equally sized pieces
-  vector<unsigned> get_bounds(unsigned size, unsigned numRows, unsigned numColumns, unsigned numSubsets)
+  std::vector<unsigned> get_bounds(unsigned size, unsigned numRows, unsigned numColumns, unsigned numSubsets)
   {
-    vector<unsigned> bounds(numSubsets);
+    std::vector<unsigned> bounds(numSubsets);
     unsigned numSubsetRows = numRows / numSubsets;
     unsigned subsetSize = numSubsetRows * numColumns;
     unsigned numRowsInLastSubset = numSubsetRows + numRows % numSubsetRows;
     
-    //cout << "number of rows in last subset is " << numRowsInLastSubset << endl;
+    //std::cout << "number of rows in last subset is " << numRowsInLastSubset << std::endl;
     
     for (unsigned i = 0; i < numSubsets - 1; ++i)
     {
@@ -34,7 +34,7 @@ namespace csv_operations
   }
   
   // checks for infinite values in the csv file
-  void verify_data_format(const DataType &csvFile)
+  void verify_data_format(const CsvFile& csvFile)
   {
     for (unsigned i = 0; i < csvFile.get_num_rows(); ++i)
     {
@@ -59,8 +59,22 @@ namespace csv_operations
     return numerator / denominator;
   }
   
-  DataType::Ptr do_arith_operation_subset(DataType::Ptr updatedcsvFile, function<double(double, double)> myoper,
-                                          unsigned firstRow, unsigned lastRow, unsigned firstCol, unsigned secondCol)
+  template <typename T>
+  std::string to_string_with_precision(const T a_value, const int n = 5)
+  {
+      std::stringstream out;
+      out.precision(n);
+      out << std::fixed << a_value;
+      return out.str();
+  }
+
+  CsvFile::Ptr do_arith_operation_subset(
+    CsvFile::Ptr updatedcsvFile, 
+    std::function<double(double, double)> myoper,
+    unsigned firstRow, 
+    unsigned lastRow, 
+    unsigned firstCol, 
+    unsigned secondCol)
   {
     unsigned newNumColumns = updatedcsvFile->get_num_columns() + 1;
     unsigned numRows = updatedcsvFile->get_num_rows();
@@ -69,12 +83,19 @@ namespace csv_operations
     updatedcsvFile->values.data_.resize(newNumColumns);
     updatedcsvFile->values.data_[newNumColumns - 1].resize(numRows);
     
-    const DataType& csvFile = *updatedcsvFile;
+    const CsvFile& csvFile = *updatedcsvFile;
     
     for (unsigned i = firstRow; i < lastRow; ++i)
     {
-      updatedcsvFile->values(i, newNumColumns - 1) = to_string(myoper(stod(csvFile.values(i, firstCol)),
-                                                                      stod(csvFile.values(i, secondCol))));
+
+      // updatedcsvFile->values(i, newNumColumns - 1) = to_string(myoper(stod(csvFile.values(i, firstCol)),
+      //                                                                   stod(csvFile.values(i, secondCol))));
+
+      // we truncate to two decimal places for now - could probably add an option for specifying the output type or precision if it's a floating point value
+
+      updatedcsvFile->values(i, newNumColumns - 1) = to_string_with_precision(myoper(stod(csvFile.values(i, firstCol)),
+                                                                                      stod(csvFile.values(i, secondCol))), 2);
+      
     }
 
     // parallel::Range range(firstRow, lastRow);
@@ -84,8 +105,12 @@ namespace csv_operations
     return updatedcsvFile;
   }
   
-  DataType::Ptr perform_column_op_subset(DataType::Ptr csvFile, function<double(double, double)> myoper,
-                                         unsigned firstRow, unsigned lastRow, vector<string> colsToUse)
+  CsvFile::Ptr perform_column_op_subset(
+    CsvFile::Ptr csvFile, 
+    std::function<double(double, double)> myoper,
+    unsigned firstRow, 
+    unsigned lastRow, 
+    std::vector<std::string>& colsToUse)
   {
     unsigned firstCol = stoi(colsToUse[0]);
     unsigned secondCol = stoi(colsToUse[1]);
@@ -101,7 +126,7 @@ namespace csv_operations
     return do_arith_operation_subset(csvFile, myoper, firstRow, lastRow, firstCol, secondCol);
   }
   
-  DataType::Ptr perform_column_op(DataType::Ptr csvFile, function<double(double, double)> myoper, vector<string> colsToUse)
+  CsvFile::Ptr perform_column_op(CsvFile::Ptr csvFile, std::function<double(double, double)> myoper, std::vector<std::string>& colsToUse)
   {
     unsigned firstCol = stoi(colsToUse[0]);
     unsigned secondCol = stoi(colsToUse[1]);
@@ -119,36 +144,38 @@ namespace csv_operations
   }
   
   // output the column index, minimum, maximum, median, and average values
-  void show_single_column_stats(vector<double>& column, unsigned col_idx, string otherStat)
+  void show_single_column_stats(std::vector<double>& column, unsigned col_idx, std::string& otherStat)
   {
 
-    cout << "column " << col_idx << " - ";
+    std::cout << "column " << col_idx << " - ";
     if (otherStat == "none")
     {
-      cout << stats::get_min_element(column) << ", " << stats::get_max_element(column) << ", " << stats::get_median_value(column)
-      << ", and " << stats::get_mean_value(column) << endl;
+      std::cout << stats::get_min_element(column) << ", " << stats::get_max_element(column) << ", " << stats::get_median_value(column)
+      << ", and " << stats::get_mean_value(column) << std::endl;
     }
     else if (otherStat == "standard_deviation")
     {
-      cout << stats::get_standard_deviation(column) << endl;
+      std::cout << stats::get_standard_deviation(column) << std::endl;
     }
     
   }
   
-  void show_multiple_column_stats(const DataType& csvFile, vector<string> colsToUse, string otherStat)
+  void show_multiple_column_stats(const CsvFile& csvFile, std::vector<std::string>& colsToUse, std::string& otherStat)
   {
     unsigned numColumns = csvFile.get_num_columns();
     unsigned numColstoUse = colsToUse.size();
     unsigned columnIndex;
+
+    // could probably add enum classes for things like this
     
     // output stats for columns
     if (otherStat == "none")
     {
-      cout << "stats (min, max, median, and average) for specified columns are" << endl;
+      std::cout << "stats (min, max, median, and average) for specified columns are" << std::endl;
     }
     else if (otherStat == "standard_deviation")
     {
-      cout << "standard deviations for specified columns are" << endl;
+      std::cout << "standard deviations for specified columns are" << std::endl;
     }
     else if (otherStat == "correlation_coefficient")
     {
@@ -160,17 +187,17 @@ namespace csv_operations
       unsigned firstColIdx = stoi(colsToUse[0]);
       unsigned secondColIdx = stoi(colsToUse[1]);
       
-      vector<double> firstCol = csvFile.get_column(firstColIdx);
-      vector<double> secondCol = csvFile.get_column(secondColIdx);
+      std::vector<double> firstCol = csvFile.get_column(firstColIdx);
+      std::vector<double> secondCol = csvFile.get_column(secondColIdx);
       
       double correlationCoefficient = stats::get_correlation_coefficient(firstCol, secondCol);
       
-      cout << "the correlation between columns " << firstColIdx
-      << " and " << secondColIdx << " is " << correlationCoefficient << endl;
+      std::cout << "the correlation between columns " << firstColIdx
+      << " and " << secondColIdx << " is " << correlationCoefficient << std::endl;
       return;
     }
     
-    vector<double> currentColumn;
+    std::vector<double> currentColumn;
     for (unsigned j = 0; j < numColstoUse; ++j)
     {
       columnIndex = stoi(colsToUse[j]);
@@ -182,24 +209,28 @@ namespace csv_operations
       show_single_column_stats(currentColumn, columnIndex, otherStat);
     }
   }
-  
-  // removes columns that are no longer desired
-  void edit_columns(DataType::Ptr csvFile, vector<string> colsToUse)
+
+  void edit_columns(CsvFile::Ptr csvFile, std::vector<std::string>& colsToUse)
   {
     unsigned numOutputCols = colsToUse.size();
+    // unsigned count = 0;
+    // const unordered_set<std::string> columns(make_move_iterator(colsToUse.begin()), make_move_iterator(colsToUse.end()));
     
-    unsigned count = 0;
-    
-    unordered_set<string> columns(make_move_iterator(colsToUse.begin()), make_move_iterator(colsToUse.end()));
-    
-    csvFile->values.data_.erase(remove_if(csvFile->values.data_.begin(), csvFile->values.data_.end(),
-                                          [&](vector<string> a) { return columns.count(to_string(count++)) == 0; } ),
-                                csvFile->values.data_.end());
+    // csvFile->values.data_.erase(remove_if(csvFile->values.data_.begin(), csvFile->values.data_.end(),
+    //                                       [&columns, &count](std::vector<std::string> a) 
+    //                                         { return columns.count(to_string(count++)) == 0; } ), 
+    //                                            csvFile->values.data_.end());
+
+    // std::erase_if(csvFile->values.data_, [&columns, &count](std::vector<std::string>) { return columns.contains(to_string(count++)) == false; });
+
+    std::vector<std::vector<std::string>> result(numOutputCols);
+    std::transform(std::cbegin(colsToUse), std::cend(colsToUse), std::begin(result), [&data = std::as_const(csvFile->values.data_)](std::string pos) { return data[std::stoi(pos)]; });
+    csvFile->values.data_ = std::move(result);
     
     csvFile->set_num_columns(numOutputCols);
   }
   
-  void print_csv_values(DataType::Ptr csvFile)
+  void print_csv_values(CsvFile::Ptr csvFile)
   {
     
     unsigned numColumns = csvFile->get_num_columns();
@@ -209,20 +240,23 @@ namespace csv_operations
     {
       for (unsigned j = 0; j < numColumns; ++j)
       {
-        cout << csvFile->values(i, j);
+        std::cout << csvFile->values(i, j);
         if (j < numColumns - 1)
         {
-          cout << ", ";
+          std::cout << ", ";
         }
       }
-      cout << endl;
+      std::cout << std::endl;
       
     }
     
   }
   
-  vector<double>::const_iterator my_find(vector<double>::const_iterator first, vector<double>::const_iterator last,
-                                         unsigned &index, const double& val)
+  std::vector<double>::const_iterator my_find(
+    std::vector<double>::const_iterator first, 
+    std::vector<double>::const_iterator last,
+    unsigned index, 
+    const double val)
   {
     while (first!=last)
     {
@@ -237,8 +271,11 @@ namespace csv_operations
   }
   
   // can perform inner and outer joins
-  DataType::Ptr join_data_sets(const DataType &csvFile, const DataType &csvFile2, vector<string> colsToUse,
-                               string operation)
+  CsvFile::Ptr join_data_sets(
+    const CsvFile& csvFile, 
+    const CsvFile& csvFile2, 
+    std::vector<std::string>& colsToUse,
+    std::string& operation)
   {
     unsigned numColstoUse = colsToUse.size();
     unsigned colIndex = stoi(colsToUse[0]);
@@ -264,24 +301,24 @@ namespace csv_operations
       throw std::invalid_argument("one of the column indices is out of range");
     }
     
-    cout << "indices of columns are " << colIndex << " and " << colIndex2 << " for first "
-    << "and second input files, respectively"<< endl;
+    std::cout << "indices of columns are " << colIndex << " and " << colIndex2 << " for first "
+    << "and second input files, respectively"<< std::endl;
     
-    vector<double> currentCol = csvFile.get_column(colIndex);
-    vector<double> currentCol2 = csvFile2.get_column(colIndex2);
-    DataType::Ptr outputCsvFile(new DataType());
+    std::vector<double> currentCol = csvFile.get_column(colIndex);
+    std::vector<double> currentCol2 = csvFile2.get_column(colIndex2);
+    CsvFile::Ptr outputCsvFile(new CsvFile());
     unsigned numOutputRows = 0;
     
     outputCsvFile->values.data_.resize(numColumns + numColumns2);
     
-    unordered_set<unsigned> rowSet;
-    vector<double>::const_iterator indexIterator;
+    std::unordered_set<unsigned> rowSet;
+    std::vector<double>::const_iterator indexIterator;
     unsigned rowIndex;
     
     
     if (operation == "inner_join")
     {
-      cout << "performing an inner join on the specified columns of the input data sets" << endl;
+      std::cout << "performing an inner join on the specified columns of the input data sets" << std::endl;
       
       for (unsigned i = 0; i < numRows; ++i)
       {
@@ -309,7 +346,7 @@ namespace csv_operations
     }
     else if (operation == "outer_join")
     {
-      cout << "performing an outer join on the specified columns of the input data sets" << endl;
+      std::cout << "performing an outer join on the specified columns of the input data sets" << std::endl;
       
       // for each value in the specified column of the first csv file, check if there are
       // any rows in the specified column of the second csv file that have matching values
@@ -380,7 +417,7 @@ namespace csv_operations
       }
     }
     
-    cout << "operation completed\n\n";
+    std::cout << "operation completed\n\n";
     
     outputCsvFile->set_num_rows(numOutputRows);
     outputCsvFile->set_num_columns(numColumns + numColumns2);

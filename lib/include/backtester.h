@@ -8,10 +8,10 @@
 #include "CsvFile.h"
 #include "conditions.h"
 
-using namespace std;
+
 
 namespace backtester {
-    unsigned number_of_events(csv_file::Ptr historical_data, conditions conds);
+    unsigned number_of_events(CsvFile::Ptr historical_data, conditions conds);
 }
 
 #endif /* defined(____backtester__) */

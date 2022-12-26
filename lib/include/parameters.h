@@ -12,42 +12,38 @@
 #include <cstring>
 #include "StringOperations.h"
 
-using namespace std;
+
 
 namespace parameters
 {
   
-  struct parameter_set
+  struct ParameterSet
   {
-    parameter_set()
+    ParameterSet()
     {
       showHelp = false;
-      filePath = nullptr;
-      filePath2 = nullptr;
-      outputPath = nullptr;
-      myoper = nullptr;
-      numThreads = thread::hardware_concurrency();
+      numThreads = std::thread::hardware_concurrency();
       otherStat = "none";
       printValues = true;
       numOptions = 0;
     }
     
     bool showHelp;
-    char* filePath;
-    char* filePath2;
-    char* outputPath;
-    vector<string> colsToUse;
-    string operation;
-    function<double(double, double)> myoper;
+    char* filePath { };
+    char* filePath2 { };
+    char* outputPath { };
+    std::vector<std::string> colsToUse;
+    std::string operation;
+    std::function<double(double, double)> myoper { };
     unsigned numThreads;
-    string otherStat;
+    std::string otherStat;
     bool printValues;
     unsigned numOptions;
   };
   
-  parameter_set parse_arguments(int argc, char** argv);
+  ParameterSet parse_arguments(int argc, char** argv);
   
-  void verify_parameters(const parameter_set& parameterSet, bool outputPathRequired = false);
+  void verify_parameters(const ParameterSet& parameterSet, bool outputPathRequired = false);
   
 }
 

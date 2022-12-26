@@ -49,7 +49,7 @@ namespace ml
     double error = 0.0;
     for (size_t i = 0; i < num; ++i)
     {
-      double minDis = numeric_limits<double>::max();
+      double minDis = std::numeric_limits<double>::max();
       int minIndex = -1;
       for (int j = 0; j < k; ++j)
       {
@@ -79,7 +79,7 @@ namespace ml
     {
       for (size_t i = 0; i < num; ++i)
       {
-        double minDis = numeric_limits<double>::max();
+        double minDis = std::numeric_limits<double>::max();
         int minIndex = -1;
         for (int j = 0; j < k; ++j)
         {
@@ -101,7 +101,7 @@ namespace ml
     }
     else
     {
-      std::vector<thread> threads;
+      std::vector<std::thread> threads;
       size_t numPoints = num / numThreads;
       size_t count = 0;
       size_t* changes = new size_t[numThreads];
@@ -119,10 +119,10 @@ namespace ml
           totalNum = num - (numThreads - 1) * numPoints;
         else
           totalNum = numPoints;
-        threads.push_back(thread(multi_compute_assignment, totalNum, dim, k, p + count, means, assignment + count, &errorVector[i], &changes[i]));
+        threads.emplace_back(std::thread(multi_compute_assignment, totalNum, dim, k, p + count, means, assignment + count, &errorVector[i], &changes[i]));
         count += numPoints;
       }
-      for_each(threads.begin(), threads.end(), mem_fn(&thread::join));
+      std::for_each(threads.begin(), threads.end(), std::mem_fn(&std::thread::join));
       for (int i = 0; i < numThreads; ++i)
       {
         numChange += changes[i];
@@ -171,8 +171,8 @@ namespace ml
     }
     else
     {
-      vector<double*> sub_totals(numThreads);
-      vector<size_t*> sub_counts(numThreads);
+      std::vector<double*> sub_totals(numThreads);
+      std::vector<size_t*> sub_counts(numThreads);
       for (int i = 0; i < numThreads; ++i)
       {
         sub_totals[i] = new double[dim * k];
@@ -182,17 +182,17 @@ namespace ml
         for (int j = 0; j < k; ++j)
           sub_counts[i][j] = 0;
       }
-      std::vector<thread> threads;
+      std::vector<std::thread> threads;
       size_t off = 0;
       for (int i = 0; i < numThreads; ++i)
       {
         size_t featureNum = num / numThreads;
         if (i == numThreads - 1)
           featureNum = num - (numThreads - 1) * featureNum;
-        threads.push_back(thread(multi_des_accumulate, featureNum, dim, k, p + off, currentAssignments + off, sub_totals[i], sub_counts[i]));
+        threads.push_back(std::thread(multi_des_accumulate, featureNum, dim, k, p + off, currentAssignments + off, sub_totals[i], sub_counts[i]));
         off += featureNum;
       }
-      for_each(threads.begin(), threads.end(), mem_fn(&thread::join));
+      std::for_each(threads.begin(), threads.end(), std::mem_fn(&std::thread::join));
       for (int i = 0; i < numThreads; ++i)
       {
         for (int j = 0; j < k * dim; ++j)
@@ -224,11 +224,11 @@ namespace ml
   {
     if (num < k)
     {
-      cerr << "number of keys should be greater or equal to the number of clusters";
+      std::cerr << "number of keys should be greater or equal to the number of clusters";
       exit(1);
     }
 
-    double minDistance = numeric_limits<double>::max();
+    double minDistance = std::numeric_limits<double>::max();
     double* currentMeans;
     size_t* initialIndex;
     int* currentAssignments;
@@ -241,7 +241,7 @@ namespace ml
 
     if (currentMeans == NULL || initialIndex == NULL || currentAssignments == NULL)
     {
-      cerr << "an error occurred when trying to allocate memory for kmeans variable";
+      std::cerr << "an error occurred when trying to allocate memory for kmeans variable";
       exit(1);
     }
 
@@ -277,7 +277,7 @@ namespace ml
         ++iterations;
       }
 
-      cout << "used " << iterations << " iterations for get the clusters" << endl;
+      std::cout << "used " << iterations << " iterations for get the clusters" << std::endl;
 
       compute_means(num, dim, k, p, currentAssignments, currentMeans, numThreads);
       if (dis < minDistance)

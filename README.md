@@ -2,13 +2,13 @@
 #### Purpose of project
 
 The tools included in this package allow you to manipulate, display, modify, and retrieve basic
-statistics on the columns of your csv data. We will be adding other tools that could be relevant for securities traders such as
+stats about your data. We would like to add other tools that could be relevant for securities trading such as a
 back tester and possibly execution and risk tools
 
 #### Building the project
 
-Open the command line/terminal, navigate to a directory that you will build the project in,
-and execute the following commands to build the project and create the necessary executables.
+To build this on linum, please open the command line/terminal, navigate to a directory that you would like to build the project in,
+and execute the following commands to build the project and create the necessary executable files
 
 ```
 mkdir build && cd build
@@ -17,7 +17,7 @@ make
 sudo make install
 ```
 
-You can then navigate to `bin/`, which is located in the top level directory of this project to use the executables.
+You can then navigate to `bin/`, which is located in the top level directory of this project to use the executables
 
 #### Usage and examples
 

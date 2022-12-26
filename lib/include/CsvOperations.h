@@ -14,37 +14,50 @@
 #include <algorithm>
 #include "CsvFile.h"
 
-using namespace std;
+
 
 namespace csv_operations
 {
   
-  vector<unsigned> get_bounds(unsigned size, unsigned numRows, unsigned numColumns, unsigned numSubsets);
+  std::vector<unsigned> get_bounds(unsigned size, unsigned numRows, unsigned numColumns, unsigned numSubsets);
   
-  void verify_data_format(const csv_file& csvFile);
+  void verify_data_format(const CsvFile& csvFile);
   
-  csv_file::Ptr do_arith_operation_subset(csv_file::Ptr csvFile, function<double(double, double)> myoper,
-                                          unsigned firstRow, unsigned lastRow, unsigned firstCol, unsigned secondCol);
+  CsvFile::Ptr do_arith_operation_subset(
+    CsvFile::Ptr csvFile, 
+    std::function<double(double, double)> myoper,
+    unsigned firstRow, 
+    unsigned lastRow, 
+    unsigned firstCol, 
+    unsigned secondCol);
 
-  csv_file::Ptr perform_column_op_subset(csv_file::Ptr csvFile, function<double(double, double)> myoper,
-                                         unsigned firstRow, unsigned lastRow, vector<string> colsToUse);
+  CsvFile::Ptr perform_column_op_subset(
+    CsvFile::Ptr csvFile, 
+    std::function<double(double, double)> myoper,
+    unsigned firstRow, 
+    unsigned lastRow, 
+    std::vector<std::string>& colsToUse);
   
-  csv_file::Ptr perform_column_op(csv_file::Ptr csvFile, function<double(double, double)> myoper,
-                                  vector<string> colsToUse);
+  CsvFile::Ptr perform_column_op(
+    CsvFile::Ptr csvFile, 
+    std::function<double(double, double)> myoper,
+    std::vector<std::string>& colsToUse);
   
-  void show_single_column_stats(vector<double>& values, unsigned col_idx, string otherStat);
+  void show_single_column_stats(std::vector<double>& values, unsigned col_idx, std::string& otherStat);
   
-  void show_multiple_column_stats(const csv_file& csvFile, vector<string> colsToUse, string otherStat);
+  void show_multiple_column_stats(const CsvFile& csvFile, std::vector<std::string>& colsToUse, std::string& otherStat);
   
-  void edit_columns(csv_file::Ptr csvFile, vector<string> colsToUse);
+  void edit_columns(CsvFile::Ptr csvFile, std::vector<std::string>& colsToUse);
   
-  void print_csv_values(const csv_file::Ptr csvFile);
+  void print_csv_values(CsvFile::Ptr csvFile);
   
-  csv_file::Ptr join_data_sets(const csv_file& csvFile, const csv_file& csvFile2, vector<string> colToUse,
-                               string operation);
+  CsvFile::Ptr join_data_sets(const CsvFile& csvFile, 
+    const CsvFile& csvFile2, 
+    std::vector<std::string>& colToUse,
+    std::string& operation);
   
   
-};
+}
 
 
 #endif /* defined(____csv_operations__) */

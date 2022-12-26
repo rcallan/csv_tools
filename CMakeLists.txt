@@ -1,8 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
 
+project(csvtools LANGUAGES CXX C VERSION 0.2.0)
+
+find_program(CCACHE_PROGRAM ccache)
+if(CCACHE_PROGRAM)
+  set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
+endif()
+
 set(CMAKE_CXX_COMPILER "g++")
 
-set(CMAKE_CXX_FLAGS "-std=c++2a -pthread")
+set(CMAKE_CXX_FLAGS "-std=c++2a -pthread -Wall -Wno-sign-compare")
 
 add_subdirectory(lib)
 

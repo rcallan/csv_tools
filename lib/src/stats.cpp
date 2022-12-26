@@ -9,9 +9,9 @@
 namespace stats
 {
   // returns the minimum value of a double array
-  double get_min_element(vector<double>& values)
+  double get_min_element(std::vector<double>& values)
   {
-    double min = numeric_limits<double>::max();
+    double min = std::numeric_limits<double>::max();
     unsigned valuesSize = values.size();
     
     for (unsigned i = 0; i < valuesSize; ++i) 
@@ -25,9 +25,9 @@ namespace stats
   }
   
   // returns the maximum value of a double array
-  double get_max_element(vector<double>& values)
+  double get_max_element(std::vector<double>& values)
   {
-    double max = numeric_limits<double>::min();
+    double max = std::numeric_limits<double>::min();
     unsigned valuesSize = values.size();
     
     for (unsigned i = 0; i < valuesSize; ++i) 
@@ -40,8 +40,8 @@ namespace stats
     return max;
   }
   
-  // returns the median value of a double vector
-  double get_median_value(vector<double>& values)
+  // returns the median value of a double std::vector
+  double get_median_value(std::vector<double>& values)
   {
     unsigned valuesSize = values.size();
     sort(values.begin(), values.begin() + valuesSize);
@@ -58,12 +58,12 @@ namespace stats
     return median;
   }
   
-  double get_mean_value(vector<double>& values)
+  double get_mean_value(std::vector<double>& values)
   {
     return accumulate(values.begin(), values.end(), 0.0) / values.size();
   }
   
-  double get_standard_deviation(vector<double>& values)
+  double get_standard_deviation(std::vector<double>& values)
   {
     double size = values.size();
     
@@ -78,8 +78,8 @@ namespace stats
     return standard_devation;
   }
   
-  // returns the pearson correlation coefficient for two double vectors
-  double get_correlation_coefficient(vector<double>& xvals, vector<double>& yvals)
+  // returns the pearson correlation coefficient for two double std::vectors
+  double get_correlation_coefficient(std::vector<double>& xvals, std::vector<double>& yvals)
   {
     unsigned xvalsSize = xvals.size();
     unsigned yvalsSize = yvals.size();

@@ -9,16 +9,16 @@
 #include <string>
 #include <pthread.h>
 
-using namespace std;
+
 
 void showHelp()
 {
-  cout << "usage- showcsv [--path <path>] [--print_values off || on]\n\n" 
+  std::cout << "usage- showcsv [--path <path>] [--print_values off || on]\n\n" 
   "The showcsv tool prints the number of rows and columns and (optionally) all " 
   "the values of the csv file to the standard output.\n";
 }
 
-double** copy_2d_vector_to_2d_array(const std::vector<std::vector<string>>& src)
+double** copy_2d_vector_to_2d_array(const std::vector<std::vector<std::string>>& src)
 {
   int numKeys = src[0].size();
   int numDim = src.size();
@@ -45,17 +45,17 @@ double** copy_2d_vector_to_2d_array(const std::vector<std::vector<string>>& src)
 int main(int argc, char** argv)
 {
 
-  parameters::parameter_set parameterSet = parameters::parse_arguments(argc, argv);
+  parameters::ParameterSet pset = parameters::parse_arguments(argc, argv);
 
-  if (parameterSet.showHelp == true)
+  if (pset.showHelp == true)
   {
     showHelp();
     return 0;
   }
   
-  parameters::verify_parameters(parameterSet);
+  parameters::verify_parameters(pset);
   
-  csv_file::Ptr csvFile(csv_file::read_data(parameterSet.filePath));
+  CsvFile::Ptr csvFile(CsvFile::read_data(pset.filePath));
   
   csvFile->printSize("input file");
 
@@ -70,26 +70,26 @@ int main(int argc, char** argv)
   int* assignments = new int[total];
   double* means = new double[numClusters * numDim];
 
-  int numThreads = parameterSet.numThreads;
+  int numThreads = pset.numThreads;
 
-  cout << "using " << numThreads << " thread(s) for computations" << endl;
+  std::cout << "using " << numThreads << " thread(s) for computations" << std::endl;
 
-  auto start = chrono::steady_clock::now();
+  auto start = std::chrono::steady_clock::now();
 
   ml::kmeans(numKeys, numDim, numClusters, p, means, assignments, numThreads);
 
-  auto end = chrono::steady_clock::now();
+  auto end = std::chrono::steady_clock::now();
 
   auto diff = end - start;
 
   for (int i = 0; i < numClusters * numDim; ++i)
   {
-    cout << means[i] << " ";
+    std::cout << means[i] << " ";
     if ((i + 1) % numDim == 0)
-      cout << endl;
+      std::cout << std::endl;
   }
 
-  cout << "computing the means for the clusters took " << chrono::duration <double, milli> (diff).count() << " ms" << endl;
+  std::cout << "computing the means for the clusters took " << std::chrono::duration <double, std::milli> (diff).count() << " ms" << std::endl;
 
   return 0;
 }
