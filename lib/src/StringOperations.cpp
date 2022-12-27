@@ -8,7 +8,7 @@ namespace std::string_operations
 {
   
   // splits a std::string into pieces based on specified delimiter
-  void split_line(std::string& line, std::string delim, std::vector<std::vector<std::string>>& values)
+  void split_line(std::string& line, std::string&& delim, std::vector<std::vector<std::string>>& values)
   {
     size_t pos = 0;
     unsigned columnIndex = 0;
@@ -25,7 +25,7 @@ namespace std::string_operations
     }
   }
   
-  void split_line(std::string& line, std::string delim, std::vector<std::string>& values)
+  void split_line(std::string& line, std::string&& delim, std::vector<std::string>& values)
   {
     size_t pos = 0;
     std::string p;

@@ -12,7 +12,7 @@ output. The following input options should be provided to use this tool.
 Example:
 
 ```
-./csvcolumnselector --path "values.csv" --output_path "newvalues.csv" --columns 3,4
+./columnselector --path "values.csv" --output_path "newvalues.csv" --columns 3,4
 ```
 
 The `joiner` utility can be used to perform inner and outer joins on two data
@@ -31,7 +31,7 @@ Note: This tool assumes the columns of each data set are in the same order.
 Example:
 
 ```
-./csvjointool --path "join_values1.csv" --path2 "join_values2.csv" --output_path "newvalues2.csv" --columns_to_join_on 2,1 --operation outer_join
+./joiner --path "join_values1.csv" --path2 "join_values2.csv" --output_path "newvalues2.csv" --columns_to_join_on 2,1 --operation outer_join
 ```
 
 The `statistics` tool can be used to show simple statistics (minimum, maximum, median, and
@@ -46,7 +46,7 @@ to use this tool.
 Example:
 
 ```
-./csvstatistics --path "values.csv" --columns 2,3
+./statistics --path "values.csv" --columns 2,3
 ```
 
 The `arith` tool can be used to perform addition, subtraction, multiplication,
@@ -64,7 +64,7 @@ options should be provided to use this tool.
 Example:
 
 ```
-./csvarith --path "values.csv" --output_path "newvalues.csv" --columns 2,3 --operator addition
+./arith --path "values.csv" --output_path "newvalues.csv" --columns 2,3 --operator addition
 ```
 
 Finally, the `show` tool can be used to print csv file values to the command line. The only input
