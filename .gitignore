@@ -7,6 +7,8 @@ bin/*
 # ignore test data files
 testdata
 
+exampledata/*.csv#
+
 .vscode
 
 # ignore mac specific files

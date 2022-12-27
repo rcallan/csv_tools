@@ -87,10 +87,6 @@ namespace csv_operations
     
     for (unsigned i = firstRow; i < lastRow; ++i)
     {
-
-      // updatedcsvFile->values(i, newNumColumns - 1) = to_string(myoper(stod(csvFile.values(i, firstCol)),
-      //                                                                   stod(csvFile.values(i, secondCol))));
-
       // we truncate to two decimal places for now - could probably add an option for specifying the output type or precision if it's a floating point value
 
       updatedcsvFile->values(i, newNumColumns - 1) = to_string_with_precision(myoper(stod(csvFile.values(i, firstCol)),
@@ -213,18 +209,10 @@ namespace csv_operations
   void edit_columns(CsvFile::Ptr csvFile, std::vector<std::string>& colsToUse)
   {
     unsigned numOutputCols = colsToUse.size();
-    // unsigned count = 0;
-    // const unordered_set<std::string> columns(make_move_iterator(colsToUse.begin()), make_move_iterator(colsToUse.end()));
-    
-    // csvFile->values.data_.erase(remove_if(csvFile->values.data_.begin(), csvFile->values.data_.end(),
-    //                                       [&columns, &count](std::vector<std::string> a) 
-    //                                         { return columns.count(to_string(count++)) == 0; } ), 
-    //                                            csvFile->values.data_.end());
-
-    // std::erase_if(csvFile->values.data_, [&columns, &count](std::vector<std::string>) { return columns.contains(to_string(count++)) == false; });
 
     std::vector<std::vector<std::string>> result(numOutputCols);
-    std::transform(std::cbegin(colsToUse), std::cend(colsToUse), std::begin(result), [&data = std::as_const(csvFile->values.data_)](std::string pos) { return data[std::stoi(pos)]; });
+    std::transform(std::cbegin(colsToUse), std::cend(colsToUse), std::begin(result), 
+                      [&data = std::as_const(csvFile->values.data_)](std::string pos) { return data[std::stoi(pos)]; });
     csvFile->values.data_ = std::move(result);
     
     csvFile->set_num_columns(numOutputCols);

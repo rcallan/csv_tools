@@ -7,7 +7,7 @@ back tester and possibly execution and risk tools
 
 #### Building the project
 
-To build this on linum, please open the command line/terminal, navigate to a directory that you would like to build the project in,
+To build this on linux, please open the command line/terminal, navigate to a directory that you would like to build the project in,
 and execute the following commands to build the project and create the necessary executable files
 
 ```
