@@ -13,7 +13,6 @@
 #include <vector>
 
 
-
 class CsvFile
 {
 public:

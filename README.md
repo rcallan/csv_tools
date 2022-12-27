@@ -1,9 +1,9 @@
 
 #### Purpose of project
 
-The tools included in this package allow you to manipulate, display, modify, and retrieve basic
-stats about your data. We would like to add other tools that could be relevant for securities trading such as a
-back tester and possibly execution and risk tools
+The tools included in this repository allow you to manipulate, display, modify, and retrieve basic stats about your data. We 
+would like to add other tools that could be relevant for securities trading such as a back tester and possibly execution 
+and risk tools
 
 #### Building the project
 

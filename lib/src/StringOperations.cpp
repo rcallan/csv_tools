@@ -4,10 +4,10 @@
 
 #include "StringOperations.h"
 
-namespace std::string_operations
+namespace string_operations
 {
   
-  // splits a std::string into pieces based on specified delimiter
+  // splits an std::string into pieces based on specified delimiter
   void split_line(std::string& line, std::string&& delim, std::vector<std::vector<std::string>>& values)
   {
     size_t pos = 0;
