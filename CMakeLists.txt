@@ -7,9 +7,19 @@ if(CCACHE_PROGRAM)
   set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
 endif()
 
-set(CMAKE_CXX_COMPILER "g++")
+set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CXX_FLAGS "-std=c++2a -pthread -Wall -Wno-sign-compare")
+
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/71140c3ca7a87bb1b5b9c9f1500fea8858cce344.zip
+)
+
+FetchContent_MakeAvailable(googletest)
+
+include(CTest)
 
 add_subdirectory(lib)
 
@@ -21,5 +31,7 @@ add_subdirectory(tools/show)
 add_subdirectory(tools/ml)
 
 add_subdirectory(tools/backtester)
+
+add_subdirectory(tests)
 
 install(DIRECTORY DESTINATION "${PROJECT_SOURCE_DIR}/bin/")

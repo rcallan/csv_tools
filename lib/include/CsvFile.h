@@ -17,7 +17,10 @@ class CsvFile
 {
 public:
   CsvFile() = default;
-  explicit CsvFile(unsigned numRows_, unsigned numColumns_) : numRows(numRows_), numColumns(numColumns_) { }
+  explicit CsvFile(unsigned numRows_, unsigned numColumns_) : numRows(numRows_), numColumns(numColumns_)
+  { 
+    values = matrix<std::string>(numRows_, numColumns_);
+  }
   explicit CsvFile(unsigned numRows_, unsigned numColumns_, matrix<std::string>& values_)
     : values(values_), numRows(numRows_), numColumns(numColumns_) { }
   
