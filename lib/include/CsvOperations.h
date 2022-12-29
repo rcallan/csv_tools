@@ -15,7 +15,6 @@
 #include "CsvFile.h"
 
 
-
 namespace csv_operations
 {
   

@@ -35,7 +35,7 @@ namespace parameters
       else if ( !strcmp(argv[i], "--columns") || !strcmp(argv[i], "--columns_to_join_on") )
       {
         std::string optionArg = argv[++i];
-        std::string_operations::split_line(optionArg, ",", parameterSet.colsToUse);
+        string_operations::split_line(optionArg, ",", parameterSet.colsToUse);
       }
       else if ( !strcmp(argv[i], "--operation") )
       {

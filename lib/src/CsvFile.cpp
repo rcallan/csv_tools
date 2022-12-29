@@ -31,7 +31,7 @@ CsvFile* CsvFile::read_data(char* path)
     if (value.find(',') != std::string::npos)
     {
       // ++numItemsinRow;
-      std::string_operations::split_line(value, ",", csvFile->values.data_);
+      string_operations::split_line(value, ",", csvFile->values.data_);
     }
     else if (numRows > 1)
     {
