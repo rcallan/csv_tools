@@ -22,11 +22,15 @@ int main(int argc, char** argv)
 
   // trying out this argument parser package - would probably like to switch over to this or
   // something like it for parsing
-  argparse::ArgumentParser program("csv_tools", "0.2.0");
+  argparse::ArgumentParser program("show", "0.2.0");
   program.add_argument("-h", "--help")
     .default_value(false)
     .implicit_value(true)
     .nargs(0);
+
+  program.add_argument("-p", "--path")
+    .default_value("")
+    .nargs(1);
 
   try {
     program.parse_args(argc, argv);
