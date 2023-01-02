@@ -6,6 +6,6 @@ include_directories(${SHARED_LIB_INCLUDE_DIR})
 
 set(SRCS arith.cpp)
 add_executable(arith ${SRCS})
-target_link_libraries(arith lib)
+target_link_libraries(arith lib ${OpenCL_LIBRARIES})
 
 install (TARGETS arith DESTINATION "${PROJECT_SOURCE_DIR}/bin/")

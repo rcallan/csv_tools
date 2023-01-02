@@ -206,14 +206,14 @@ namespace csv_operations
     }
   }
 
-  void edit_columns(CsvFile::Ptr csvFile, std::vector<std::string>& colsToUse)
+  void edit_columns(CsvFile::Ptr csvFile, boost::compute::vector<std::string>& colsToUse)
   {
     unsigned numOutputCols = colsToUse.size();
 
-    std::vector<std::vector<std::string>> result(numOutputCols);
-    std::transform(std::cbegin(colsToUse), std::cend(colsToUse), std::begin(result), 
-                      [&data = std::as_const(csvFile->values.data_)](std::string pos) { return data[std::stoi(pos)]; });
-    csvFile->values.data_ = std::move(result);
+    boost::compute::vector<std::vector<std::string>> result(numOutputCols);
+    // boost::compute::transform(colsToUse.begin(), colsToUse.end(), result.begin(), 
+    //                   [&data = std::as_const(csvFile->values.data_)](std::string pos) { return data[std::stoi(pos)]; });
+    // csvFile->values.data_ = std::move(result);
     
     csvFile->set_num_columns(numOutputCols);
   }

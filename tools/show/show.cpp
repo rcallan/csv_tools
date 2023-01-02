@@ -8,8 +8,6 @@
 
 // #include <sys/sysctl.h>
 
-
-
 void showHelp()
 {
   std::cout << "usage- showcsv [--path <path>] [--print_values off || on]\n\n" 

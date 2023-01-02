@@ -6,8 +6,6 @@
 #include "StringOperations.h"
 #include "parameters.h"
 
-
-
 void showHelp()
 {
   std::cout << "usage- csvjointool [--path <path>] [--path2 <second path>] [--output_path <output path>] " 

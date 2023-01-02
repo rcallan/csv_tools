@@ -9,6 +9,7 @@ add_executable(arith_test ${SRCS})
 target_link_libraries(
     arith_test
     lib
+    ${OpenCL_LIBRARIES}
     GTest::gtest_main
 )
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(SHARED_LIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(SHARED_LIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include ${OpenCL_INCLUDE_DIRS} ${Boost_INCLUDE_DIR})
 
 set(SHARED_LIB_INCLUDE_DIR ${SHARED_LIB_INCLUDE_DIR} PARENT_SCOPE)
 
@@ -12,7 +12,9 @@ if(TARGET lib)
     
 else()
     
-    include_directories(${SHARED_LIB_INCLUDE_DIR})
+    include_directories(
+        ${SHARED_LIB_INCLUDE_DIR}
+    )
 
     file(GLOB LIB_SRC_FILES "./src/*.cpp")
 

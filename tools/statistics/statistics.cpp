@@ -6,8 +6,6 @@
 #include "StringOperations.h"
 #include "parameters.h"
 
-
-
 void showHelp()
 {
   std::cout << "usage- csvstatistics [--path <path>] [--columns COLUMNS] [--other_stat OTHERSTATISTIC]\n" 

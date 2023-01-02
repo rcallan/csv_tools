@@ -5,6 +5,8 @@
 #ifndef ____csv_operations__
 #define ____csv_operations__
 
+#define CL_TARGET_OPENCL_VERSION 220
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -13,7 +15,7 @@
 #include <vector>
 #include <algorithm>
 #include "CsvFile.h"
-
+#include "boost/compute.hpp"
 
 namespace csv_operations
 {
@@ -46,7 +48,7 @@ namespace csv_operations
   
   void show_multiple_column_stats(const CsvFile& csvFile, std::vector<std::string>& colsToUse, std::string& otherStat);
   
-  void edit_columns(CsvFile::Ptr csvFile, std::vector<std::string>& colsToUse);
+  void edit_columns(CsvFile::Ptr csvFile, boost::compute::vector<std::string>& colsToUse);
   
   void print_csv_values(CsvFile::Ptr csvFile);
   

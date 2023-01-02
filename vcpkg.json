@@ -1,0 +1,9 @@
+{
+    "name": "csvtools",
+    "version-string": "0.2.0",
+    "license": "MIT",
+    "dependencies": [
+      "boost",
+      "opencl"
+    ]
+  }
