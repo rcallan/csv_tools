@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake CACHE STRING "Vcpkg toolchain file")
+set(VCPKG_TARGET_TRIPLET x64-linux CACHE STRING "Vcpkg target triplet")
+
 project(csvtools LANGUAGES CXX C VERSION 0.2.0)
 
 find_program(CCACHE_PROGRAM ccache)
@@ -20,6 +23,10 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 include(CTest)
+
+# vcpkg dependencies
+# set(CMAKE_FIND_DEBUG_MODE 1)
+find_package(argparse CONFIG REQUIRED)
 
 add_subdirectory(lib)
 

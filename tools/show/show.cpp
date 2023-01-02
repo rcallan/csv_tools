@@ -5,10 +5,9 @@
 #include "CsvOperations.h"
 #include "StringOperations.h"
 #include "parameters.h"
+#include <argparse/argparse.hpp>
 
 // #include <sys/sysctl.h>
-
-
 
 void showHelp()
 {
@@ -21,7 +20,24 @@ int main(int argc, char** argv)
 {
   parameters::ParameterSet pset = parameters::parse_arguments(argc, argv);
 
-  if (pset.showHelp == true)
+  // trying out this argument parser package - would probably like to switch over to this or
+  // something like it for parsing
+  argparse::ArgumentParser program("csv_tools", "0.2.0");
+  program.add_argument("-h", "--help")
+    .default_value(false)
+    .implicit_value(true)
+    .nargs(0);
+
+  try {
+    program.parse_args(argc, argv);
+  }
+  catch (const std::runtime_error& err) {
+    std::cerr << err.what() << std::endl;
+    std::cerr << program;
+    std::exit(1);
+  }
+
+  if (program["--help"] == true)
   {
     showHelp();
     return 0;
