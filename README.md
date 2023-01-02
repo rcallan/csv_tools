@@ -7,6 +7,14 @@ and risk tools
 
 #### Building the project
 
+When cloning this repo, please use the following commands
+
+```
+git clone --recurse-submodules https://github.com/rcallan/csv_tools
+git submodule update --init
+./vcpkg/bootstrap-vcpkg.sh
+```
+
 To build this on linux, please open the command line/terminal, navigate to a directory that you would like to build the project in,
 and execute the following commands to build the project and create the necessary executable files
 
