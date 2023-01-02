@@ -11,7 +11,6 @@ When cloning this repo, please use the following commands
 
 ```
 git clone --recurse-submodules https://github.com/rcallan/csv_tools
-git submodule update --init
 ./vcpkg/bootstrap-vcpkg.sh
 ```
 
