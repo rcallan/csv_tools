@@ -12,7 +12,7 @@ endif()
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_CXX_FLAGS "-std=c++2a -pthread -Wall -Wno-sign-compare")
+set(CMAKE_CXX_FLAGS "-pthread -Wall -Wno-sign-compare")
 
 include(FetchContent)
 FetchContent_Declare(

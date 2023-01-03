@@ -14,14 +14,12 @@ git clone --recurse-submodules https://github.com/rcallan/csv_tools
 ./vcpkg/bootstrap-vcpkg.sh
 ```
 
-To build this on linux, please open the command line/terminal, navigate to a directory that you would like to build the project in,
-and execute the following commands to build the project and create the necessary executable files
+To build and install this on linux, please navigate to the top level directory for this repo and execute the following commands
 
 ```
 mkdir build && cd build
 cmake .. -B .
-make
-sudo make install
+sudo cmake --build . --target install
 ```
 
 You can then navigate to `bin/`, which is located in the top level directory of this project to use the executables
